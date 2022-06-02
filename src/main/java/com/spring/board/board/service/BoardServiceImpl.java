@@ -4,10 +4,7 @@ import com.spring.board.board.dao.BoardDAO;
 import com.spring.board.board.vo.ArticleVO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Propagation;
-import org.springframework.transaction.annotation.Transactional;
 
 import java.util.HashMap;
 import java.util.List;
@@ -47,22 +44,12 @@ public class BoardServiceImpl  implements BoardService{
 		Map articleMap = new HashMap();
 		boardDAO.addViewCount(articleNO);
 		ArticleVO articleVO = boardDAO.selectArticle(articleNO);
-		System.out.println("viewCount = " + articleVO.getViewCount());
 		articleMap.put("article", articleVO);
 		return articleMap;
 	}
 
 
-	//	@Override
-//	public int addNewArticle(Map articleMap) throws Exception{
-//		return boardDAO.insertNewArticle(articleMap);
-//	}
 
-//	@Override
-//	public ArticleVO viewArticle(int articleNO) throws Exception {
-//		ArticleVO articleVO = boardDAO.selectArticle(articleNO);
-//		return articleVO;
-//	}
 	
 	
 	@Override
@@ -72,6 +59,7 @@ public class BoardServiceImpl  implements BoardService{
 	
 	@Override
 	public void removeArticle(int articleNO) throws Exception {
+		System.out.println(" service에서 삭제완료 " );
 		boardDAO.deleteArticle(articleNO);
 	}
 	

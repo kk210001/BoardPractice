@@ -56,12 +56,13 @@ public class BoardDAOImpl implements BoardDAO {
 
 	@Override
 	public void updateArticle(Map articleMap) throws DataAccessException {
-		sqlSession.update("updateArticle/", articleMap);
+		sqlSession.update("updateArticle", articleMap);
 	}
 
 	@Override
 	public void deleteArticle(int articleNO) throws DataAccessException {
 		sqlSession.delete("deleteArticle", articleNO);
+		System.out.println(" dao에서 삭제완료 " );
 		
 	}
 	

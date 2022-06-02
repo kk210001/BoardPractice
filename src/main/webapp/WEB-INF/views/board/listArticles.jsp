@@ -30,7 +30,6 @@
             <th><span style="padding-right: 30px"></span>제목</th>
             <th>작성자</th>
             <th>작성일</th>
-            <th>수정</th>
         </tr>
         </thead>
         <tbody>
@@ -56,8 +55,7 @@
             <td width="10%">${article.id }</td>
             <td width="10%"><fmt:formatDate
                     value="${article.writeDate}" /></td>
-            <td width="5%"><a
-                    href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">수정</a></td>
+
         </tr>
         </c:forEach>
         </c:when>
