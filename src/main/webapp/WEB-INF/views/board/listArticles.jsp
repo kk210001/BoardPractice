@@ -63,7 +63,7 @@
         </c:when>
         </c:choose>
     </table>
-
+<%--아래는 페이지네이션 관련--%>
     <div>
         <c:if test="${totArticles != null }">
             <c:choose>

@@ -20,7 +20,7 @@ import java.util.Map;
 public class BoardServiceImpl  implements BoardService{
 
 	private final BoardDAO boardDAO;
-	@Autowired(required=true)
+	@Autowired
 	public BoardServiceImpl(BoardDAO boardDAO) {
 		this.boardDAO = boardDAO;
 	}
@@ -45,7 +45,9 @@ public class BoardServiceImpl  implements BoardService{
 	@Override
 	public Map viewArticle(int articleNO) throws Exception {
 		Map articleMap = new HashMap();
+		boardDAO.addViewCount(articleNO);
 		ArticleVO articleVO = boardDAO.selectArticle(articleNO);
+		System.out.println("viewCount = " + articleVO.getViewCount());
 		articleMap.put("article", articleVO);
 		return articleMap;
 	}

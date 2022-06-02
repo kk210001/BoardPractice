@@ -12,11 +12,12 @@
     <result property="title" column="title" />
     <result property="content" column="content" />
     <result property="writeDate" column="writeDate" />
+    <result property="viewCount" column="viewCount" />
   </resultMap>
 
   <select id="selectAllArticlesList" resultMap="articlesResult"   >
     <![CDATA[
-      SELECT level, articleNO, parentNO, title, content, writeDate, id
+      SELECT level, articleNO, parentNO, title, content, writeDate, id, viewCount
       from t_board
       START WITH  parentNO=0
       CONNECT BY PRIOR articleNO=parentNO
@@ -45,7 +46,14 @@
     ]]>
   </select>
 
-  <update id="updateArticle"  parameterType="java.util.Map">
+    <update id="addViewCount" parameterType="int">
+        update t_board
+        set viewCount = viewCount +1
+        where articleNO=#{articleNO}
+    </update>
+
+
+    <update id="updateArticle"  parameterType="java.util.Map">
 			update t_board
 			set title=#{title},
 			content=#{content}

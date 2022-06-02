@@ -16,13 +16,12 @@ import java.util.Map;
 @Repository("boardDAO")
 public class BoardDAOImpl implements BoardDAO {
 
-//	private  sqlSessionTemplate sqlSession;
 	private final SqlSession sqlSession;
 
 
 
 
-	@Autowired(required=true)
+	@Autowired
 	public BoardDAOImpl(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
 	}
@@ -43,9 +42,13 @@ public class BoardDAOImpl implements BoardDAO {
 		sqlSession.insert("insertNewArticle",articleMap);
 		return articleNO;
 	}
-    
 
-	
+
+	@Override
+	public void addViewCount(int articleNO) throws DataAccessException {
+		sqlSession.selectOne("addViewCount", articleNO);
+	}
+
 	@Override
 	public ArticleVO selectArticle(int articleNO) throws DataAccessException {
 		return sqlSession.selectOne("selectArticle", articleNO);
