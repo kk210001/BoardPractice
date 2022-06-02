@@ -2,20 +2,14 @@ package com.spring.board.board.controller;
 
 import com.spring.board.board.service.BoardService;
 import com.spring.board.board.vo.ArticleVO;
+import com.spring.board.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,6 +18,11 @@ import java.util.Map;
 
 @Controller("boardController")
 public class BoardControllerImpl  implements BoardController{
+//	@Override
+//	public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response) throws Exception {
+//		return null;
+//	}
+
 	private final BoardService boardService;
 
 	@Autowired
@@ -33,41 +32,58 @@ public class BoardControllerImpl  implements BoardController{
 
 	@Override
 	@RequestMapping(value= "/board/listArticles.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ModelAndView listArticles(@RequestParam(required = false,defaultValue = "1") int page,
+									 @RequestParam(required = false,defaultValue = "1") int range,
+									 HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("리스트 호출");
-//		ModelAndView mav = new ModelAndView();
-//		List<ArticleVO> articlesList = boardService.listArticles();
-//		mav.addObject("articlesList", articlesList);
-//		mav.setViewName("listArticles");
-		return getBoardList();
+
+		int boardAllCount = boardService.getBoardAllCount();
+
+		Pagination pagination = new Pagination(page, range, boardAllCount);
+
+		System.out.println("start = " + pagination.getStartList());
+		System.out.println("end = " + pagination.getEndList());
+
+		ModelAndView mav = new ModelAndView();
+
+		mav.addObject("pagination", pagination);
+		List<ArticleVO> articlesList = boardService.listArticles(pagination);
+		mav.addObject("articlesList", articlesList);
+		mav.setViewName("listArticles");
+		return mav;
 	}
 
 	@Override
 	@RequestMapping(value="/board/addNewArticle.do" ,method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView addNewArticle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String addNewArticle(HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		Map<String, String> articleMap=new HashMap<>();
 		articleMap.put("id", request.getParameter("id"));
 		articleMap.put("title", request.getParameter("title"));
 		articleMap.put("content", request.getParameter("content"));
 		boardService.addNewArticle(articleMap);
-		//		ModelAndView mav = new ModelAndView();
-//		List<ArticleVO> articlesList = boardService.listArticles();
-//		mav.addObject("articlesList", articlesList);
-//		mav.setViewName("listArticles");
-		return getBoardList();
+
+		return "redirect:/board/listArticles.do";
 	}
 
 	@Override
 	@RequestMapping(value="/board/removeArticle.do" ,method = RequestMethod.POST)
-	public ModelAndView removeArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String removeArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+
 		boardService.removeArticle(articleNO);
-//		ModelAndView mav = new ModelAndView();
-//		List<ArticleVO> articlesList = boardService.listArticles();
-//		mav.addObject("articlesList", articlesList);
-//		mav.setViewName("listArticles");
-		return getBoardList();
+
+		return "redirect:/board/listArticles.do";
 	}
+//	@Override
+//	@RequestMapping(value="/board/removeArticle.do" ,method = RequestMethod.POST)
+//	public ModelAndView removeArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+//
+//		boardService.removeArticle(articleNO);
+//		ModelAndView mav = new ModelAndView();
+//		mav.setViewName("redirect:/board/listArticles.do");
+//
+//		return mav;
+//	}
 
 	@Override
 	@RequestMapping(value="/board/viewArticle.do" ,method = RequestMethod.GET)
@@ -108,9 +124,9 @@ public class BoardControllerImpl  implements BoardController{
 		return mav;
 	}
 
-	private ModelAndView getBoardList() throws Exception {
+	private ModelAndView getBoardList(Pagination pagination) throws Exception {
 		ModelAndView mav = new ModelAndView();
-		List<ArticleVO> articlesList = boardService.listArticles();
+		List<ArticleVO> articlesList = boardService.listArticles(pagination);
 		mav.addObject("articlesList", articlesList);
 		mav.setViewName("listArticles");
 		return mav;

@@ -32,11 +32,6 @@ public class MapperTest {
         this.boardService = boardService;
     }
 
-//    @Autowired
-//    public MapperTest(BoardDAO boardDAO, MemberDAO memberDAO) {
-//        this.boardDAO = boardDAO;
-//        this.memberDAO = memberDAO;
-//    }
 
 
     @Test

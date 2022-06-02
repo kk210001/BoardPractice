@@ -2,7 +2,7 @@ package com.spring.board.board.service;
 
 import com.spring.board.board.dao.BoardDAO;
 import com.spring.board.board.vo.ArticleVO;
-import lombok.RequiredArgsConstructor;
+import com.spring.board.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,9 +22,9 @@ public class BoardServiceImpl  implements BoardService{
 		this.boardDAO = boardDAO;
 	}
 
-	public List<ArticleVO> listArticles() throws Exception {
+	public List<ArticleVO> listArticles(Pagination pagination) throws Exception {
 
-		List<ArticleVO> articlesList = boardDAO.selectAllArticlesList();
+		List<ArticleVO> articlesList = boardDAO.selectAllArticlesList(pagination);
 		return articlesList;
 	}
 
@@ -62,7 +62,16 @@ public class BoardServiceImpl  implements BoardService{
 		System.out.println(" service에서 삭제완료 " );
 		boardDAO.deleteArticle(articleNO);
 	}
-	
 
-	
+//	@Override
+//	public List<ArticleVO> listArticles() throws Exception {
+//		return null;
+//	}
+
+	@Override
+    public int getBoardAllCount() throws Exception {
+        return  boardDAO.getBoardAllCount();
+    }
+
+
 }

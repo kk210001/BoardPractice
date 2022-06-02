@@ -4,8 +4,7 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.board.board.dao.BoardDAOImpl">
-<!--<resultMap id="articlesResult" type="articleVO">-->
-<resultMap id="articlesResult" type="com.spring.board.board.vo.ArticleVO">
+<resultMap id="articlesResult" type="ArticleVO">
     <result property="level" column="level" />
     <result property="articleNO" column="articleNO" />
     <result property="parentNO" column="parentNO" />
@@ -15,15 +14,24 @@
     <result property="viewCount" column="viewCount" />
   </resultMap>
 
-  <select id="selectAllArticlesList" resultMap="articlesResult"   >
+    <select id="selectAllArticlesList" resultMap="articlesResult"   >
     <![CDATA[
-      SELECT level, articleNO, parentNO, title, content, writeDate, id, viewCount
-      from t_board
-      START WITH  parentNO=0
-      CONNECT BY PRIOR articleNO=parentNO
-      ORDER SIBLINGS BY articleNO DESC
-    ]]>
+        select * from (
+                          select /*+ INDEX_DESC(t_board pk_board) */
+                              rownum RNUM,articleNO,parentNO,title,
+                              content,
+                              writeDate,
+                              id,
+                              viewCount
+                          from t_board
+                          where rownum <=#{endList}
+                          ORDER BY articleNO DESC
+                      ) where RNUM >= #{startList}
+                      ]]>
   </select>
+    <select id="tableAllCount" resultType="int">
+        select count(*) from t_board
+    </select>
 
 
   <insert id="insertNewArticle"  parameterType="java.util.Map">

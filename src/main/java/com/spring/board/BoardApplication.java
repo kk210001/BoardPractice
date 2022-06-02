@@ -36,7 +36,7 @@ public class BoardApplication {
 
 		Resource[] res = new PathMatchingResourcePatternResolver().getResources("mybatis/**/*.xml");
 		sessionFactory.setMapperLocations(res);
-		sessionFactory.setTypeAliasesPackage("com.spring.board.board.vo"); //여기 추가
+		sessionFactory.setTypeAliasesPackage("com.spring.board");
 
 		return sessionFactory.getObject();
 	}

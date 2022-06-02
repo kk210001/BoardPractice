@@ -1,6 +1,7 @@
 package com.spring.board.board.dao;
 
 import com.spring.board.board.vo.ArticleVO;
+import com.spring.board.paging.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
@@ -26,10 +27,16 @@ public class BoardDAOImpl implements BoardDAO {
 		this.sqlSession = sqlSession;
 	}
 
+//	@Override
+//	public List<ArticleVO> selectAllArticlesList() throws DataAccessException {
+//
+//		List<ArticleVO> articlesList = sqlSession.selectList("selectAllArticlesList");
+//		System.out.println("성공");
+//		return articlesList;
+//	}
 	@Override
-	public List<ArticleVO> selectAllArticlesList() throws DataAccessException {
-
-		List<ArticleVO> articlesList = sqlSession.selectList("selectAllArticlesList");
+	public List<ArticleVO> selectAllArticlesList(Pagination pagination) throws DataAccessException {
+		List<ArticleVO> articlesList = sqlSession.selectList("selectAllArticlesList", pagination);
 		System.out.println("성공");
 		return articlesList;
 	}
@@ -48,6 +55,12 @@ public class BoardDAOImpl implements BoardDAO {
 	public void addViewCount(int articleNO) throws DataAccessException {
 		sqlSession.selectOne("addViewCount", articleNO);
 	}
+
+    @Override
+    public int getBoardAllCount() throws Exception {
+        return sqlSession.selectOne("tableAllCount");
+    }
+
 
 	@Override
 	public ArticleVO selectArticle(int articleNO) throws DataAccessException {

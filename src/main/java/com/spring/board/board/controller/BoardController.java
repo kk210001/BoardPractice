@@ -10,16 +10,16 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface BoardController {
 	
-	public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response) throws Exception;
-	
+	public ModelAndView listArticles(int page, int range, HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 //	public ResponseEntity addNewArticle(MultipartHttpServletRequest multipartRequest,HttpServletResponse response) throws Exception;
 
-	public ModelAndView addNewArticle (HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public String addNewArticle (HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 	public ModelAndView viewArticle(@RequestParam("articleNO") int articleNO,
 			                        HttpServletRequest request, HttpServletResponse response) throws Exception;
-	public ModelAndView removeArticle(@RequestParam("articleNO") int articleNO,
-									HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public String removeArticle(@RequestParam("articleNO") int articleNO,
+									  HttpServletRequest request, HttpServletResponse response) throws Exception;
 	public ModelAndView modArticle(HttpServletRequest request, HttpServletResponse response) throws Exception;
 	//public ResponseEntity modArticle(MultipartHttpServletRequest multipartRequest,  HttpServletResponse response) throws Exception;
 //	public ResponseEntity  removeArticle(@RequestParam("articleNO") int articleNO,

@@ -22,34 +22,34 @@
 
 </script>
  <title>글쓰기창</title>
+	<link rel="stylesheet"  href="/css/style.css">
 </head>
 <body>
-<h1 style="text-align:center">글쓰기</h1>
+<div class="container">
+<h2>글쓰기</h2>
   <form name="articleForm" method="post"   action="${contextPath}/board/addNewArticle.do"   enctype="multipart/form-data">
-    <table border="0" align="center">
-      <tr>
-					<td align="right"> 작성자</td>
-					<td colspan=2  align="left"><input type="text" size="20" maxlength="100"  name="id" /> </td>
+    <table class="board_detail">
+      		<tr>
+					<td align="center" width="10%">작성자</td>
+					<td width="30%"><input type="text" size="20" maxlength="20"  name="id" /> </td>
+				<td></td>
+				<td width="20%"></td>
 			</tr>
 	     <tr>
-			   <td align="right">글제목: </td>
+			   <td align="center">제목 </td>
 			   <td colspan="2"><input type="text" size="67"  maxlength="500" name="title" /></td>
+			  <td></td>
 		 </tr>
 	 		<tr>
-				<td align="right" valign="top"><br>글내용: </td>
-				<td colspan=2><textarea name="content" rows="10" cols="65" maxlength="4000"></textarea> </td>
-     </tr>
-	   <tr>
-	      <td colspan="4"><div id="d_file"></div></td>
-	   </tr>
-	    <tr>
-	      <td align="right"> </td>
-	      <td colspan="2">
-	       <input type="submit" value="글쓰기" />
-	       <input type=button value="목록보기"onClick="backToList(this.form)" />
-	      </td>
-     </tr>
+				<td colspan="4"><textarea name="content" rows="10" cols="65" maxlength="4000"></textarea> </td>
+     		</tr>
+
     </table>
+	  <tr>
+		  <td><input type="submit" value="글쓰기" /></td>
+		  <td><input type=button value="목록보기"onClick="backToList(this.form)" /></td>
+	  </tr>
   </form>
+</div>
 </body>
 </html>

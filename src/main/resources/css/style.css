@@ -22,18 +22,6 @@ caption {display:none; width:0; height:0; margin-top:-1px; overflow:hidden; visi
 	text-decoration:none;
 	 color: #656565;
 }
-.cls2 {
-	text-align: center;
-	font-size: 30px;
-}
-.no-uline {
-	text-decoration: none;
-}
-
-.sel-page {
-	text-decoration: none;
-	color: red;
-}
 .container {max-width:1024px; margin:30px auto;}
 .board_list {width:100%; border-top:2px solid #252525; border-bottom:1px solid #ccc; margin:15px 0; border-collapse: collapse;}
 .board_list thead th:first-child {background-image:none;}
@@ -50,7 +38,11 @@ caption {display:none; width:0; height:0; margin-top:-1px; overflow:hidden; visi
 .board_detail tbody th, .board_detail tbody td {padding:10px 15px; border-bottom:1px solid #ccc;}
 .board_detail tbody textarea {width:100%; min-height:170px}
 
-.btn {margin:5px; padding:5px 11px; color:#fff !important; display:inline-block; background-color:#7D7F82; vertical-align:middle; border-radius:0 !important; cursor:pointer; border:none;}
+.btn {margin:5px; padding:5px 11px; text-decoration:none;
+	color:#fff !important; display:inline-block;
+	background-color:#7D7F82; vertical-align:middle;
+	border-radius:0 !important; cursor:pointer; border:none;}
 .btn:hover {background: #6b9ab8;}
 
 .file_list a {display:inherit !important;}
+

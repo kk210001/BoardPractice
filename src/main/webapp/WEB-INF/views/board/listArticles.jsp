@@ -18,6 +18,42 @@
     <link rel="stylesheet"  href="/css/style.css">
     <meta charset="UTF-8">
     <title>글목록창</title>
+    <script>
+        function fn_pagination(page, range) {
+            var url = "${pageContext.request.contextPath}/board/listArticles.do";
+            url = url + "?page=" + page;
+            url = url + "&range=" + range;
+            location.href = url;
+        }
+    </script>
+    <style>
+        .page_wrap {
+            text-align:center;
+            font-size:0;
+        }
+        .page_nation {
+            display:inline-block;
+        }
+        .page_nation a {
+            display:block;
+            margin:0 3px;
+            float:left;
+            border:1px solid #e6e6e6;
+            width:28px;
+            height:28px;
+            line-height:28px;
+            text-align:center;
+            background-color:#fff;
+            font-size:13px;
+            color:#999999;
+            text-decoration:none;
+        }
+        .page_nation a:hover {
+            background-color:#42454c;
+            color:#fff;
+            border:1px solid #42454c;
+        }
+    </style>
 </head>
 <body>
 
@@ -27,7 +63,7 @@
         <thead>
         <tr height="10" align="center">
             <th>번호</th>
-            <th><span style="padding-right: 30px"></span>제목</th>
+            <th><span></span>제목</th>
             <th>작성자</th>
             <th>작성일</th>
         </tr>
@@ -46,8 +82,8 @@
                    varStatus="articleNum">
         <tr>
             <td width="5%">
-                    ${pageCnt - (pageNum - 1)*10 - (articleNum.count-1)}
-
+                    ${pagination.listCount - (pagination.listSize * (pagination.page-1)) - (articleNum.count-1)}
+<%--        ${article.articleNO }--%>
             </td>
             <td width="35%" class="title">
                 <a class="board-title" href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
@@ -61,59 +97,17 @@
         </c:when>
         </c:choose>
     </table>
-<%--아래는 페이지네이션 관련--%>
-    <div>
-        <c:if test="${totArticles != null }">
-            <c:choose>
-                <c:when test="${totArticles >100 }">
-                    <!-- 글 개수가 100 초과인경우 -->
-                    <c:forEach var="page" begin="1" end="10" step="1">
-                        <c:if test="${section >1 && page==1 }">
-                            <a class="no-uline"
-                               href="${contextPath }/board/listArticles.do?section=${section-1}&pageNum=${(section-1)*10 +1 }">&nbsp;
-                                pre </a>
-                        </c:if>
-                        <a class="no-uline"
-                           href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${(section-1)*10 +page }
-                        </a>
-                        <c:if test="${page ==10 }">
-                            <a class="no-uline"
-                               href="${contextPath }/board/listArticles.do?section=${section+1}&pageNum=${section*10+1}">&nbsp;
-                                next</a>
-                        </c:if>
-                    </c:forEach>
-                </c:when>
-                <c:when test="${totArticles ==100 }">
-                    <!--등록된 글 개수가 100개인경우  -->
-                    <c:forEach var="page" begin="1" end="10" step="1">
-                        <a class="no-uline" href="#">${page } </a>
-                    </c:forEach>
-                </c:when>
-
-                <c:when test="${totArticles< 100 }">
-                    <!--등록된 글 개수가 100개 미만인 경우  -->
-                    <c:forEach var="page" begin="1" end="${totArticles/10 +1}" step="1">
-                        <c:choose>
-                            <c:when test="${page==pageNum }">
-                                <a class="sel-page"
-                                   href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${page }
-                                </a>
-                            </c:when>
-                            <c:otherwise>
-                                <a class="no-uline"
-                                   href="${contextPath }/board/listArticles.do?section=${section}&pageNum=${page}">${page }
-                                </a>
-                            </c:otherwise>
-                        </c:choose>
-                    </c:forEach>
-                </c:when>
-            </c:choose>
-        </c:if>
-    </div>
+    <tr>
+        <br> <a class="btn" href="${contextPath}/board/articleForm.do" style="text-decoration-line:none;float: left"><p>글쓰기</p></a>
+        <div class="page_wrap">
+            <div class="page_nation">
+                <c:forEach begin="1" end="${pagination.pageCount}" var="idx">
+                    <a style="text-decoration-line: none" href="#" onClick="fn_pagination('${idx}', '${pagination.range}')"> ${idx} </a>
+                </c:forEach>
+            </div>
+        </div>
+    </tr>
     </tbody>
-
-    <br> <a class="btn" href="${contextPath}/board/articleForm.do"><p>글쓰기</p></a>
 </div>
-
 </body>
 </html>

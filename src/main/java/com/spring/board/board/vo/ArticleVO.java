@@ -9,7 +9,6 @@ import java.sql.Date;
 @Component("articleVO")
 @Getter@Setter
 public class ArticleVO {
-	private int  level;
 	private int articleNO;
 	private int parentNO;
 	private int viewCount;
@@ -17,11 +16,5 @@ public class ArticleVO {
 	private String content;
 	private String id;
 	private Date  writeDate;
-	
-
-
-	public String getTitle() {
-		return title;
-	} // 호출 확인용
 
 }
