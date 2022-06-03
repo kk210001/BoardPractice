@@ -19,9 +19,6 @@ public class BoardDAOImpl implements BoardDAO {
 
 	private final SqlSession sqlSession;
 
-
-
-
 	@Autowired
 	public BoardDAOImpl(SqlSession sqlSession) {
 		this.sqlSession = sqlSession;
@@ -37,13 +34,14 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<ArticleVO> selectAllArticlesList(Pagination pagination) throws DataAccessException {
 		List<ArticleVO> articlesList = sqlSession.selectList("selectAllArticlesList", pagination);
-		System.out.println("성공");
+		System.out.println("게시글 리스트 호출 완료");
 		return articlesList;
 	}
 
 	
 	@Override
 	public int insertNewArticle(Map articleMap) throws DataAccessException {
+		System.out.println(" 삽입 완료");
 		int articleNO = selectNewArticleNO();
 		articleMap.put("articleNO", articleNO);
 		sqlSession.insert("insertNewArticle",articleMap);
@@ -58,24 +56,27 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public int getBoardAllCount() throws Exception {
+		System.out.printf("게시글 리스트 호출 완료");
         return sqlSession.selectOne("tableAllCount");
     }
 
 
 	@Override
 	public ArticleVO selectArticle(int articleNO) throws DataAccessException {
+		System.out.println("게시글 호출 완료 " );
 		return sqlSession.selectOne("selectArticle", articleNO);
 	}
 
 	@Override
 	public void updateArticle(Map articleMap) throws DataAccessException {
 		sqlSession.update("updateArticle", articleMap);
+		System.out.println(" 수정 완료 " );
 	}
 
 	@Override
 	public void deleteArticle(int articleNO) throws DataAccessException {
 		sqlSession.delete("deleteArticle", articleNO);
-		System.out.println(" dao에서 삭제완료 " );
+		System.out.println(" 삭제 완료 " );
 		
 	}
 	
