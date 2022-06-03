@@ -26,12 +26,12 @@ public class Pagination {
         this.listSize = 10;
         this.pageCount = (int) Math.ceil(listCount/(double)listSize); //올림
         this.startPage =( range - 1 ) * listSize + 1;
-//        this.startList = listCount - page * listSize +1;
         this.startList =
                 listCount - page * listSize +1 < 1 ? 1 : listCount - page * listSize +1;
         this.endList = listCount - ((page -1) * listSize) ;
 
 
+        //전 환경에 쓰인 계산
 //        this.startList = (page-1) * listSize +1;
 //       this.endList = page * listSize;
 //       this.endList = listCount - (page-1) * listSize;
@@ -40,12 +40,5 @@ public class Pagination {
 //        if(this.endList > listCount){
 //            this.endList = listCount;
 //        }
-        //오름차 출력
-//        this.startPage =( range - 1 ) * rangeSize + 1;
-//        this.endList = listCount - (page-1) * 10;
-//        if(this.endList > listCount){
-//            this.endList = listCount;
-//        }
-//        this.startList = endPage - 9 > 0 ? endPage - 9:1;
     }
 }

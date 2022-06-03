@@ -5,6 +5,7 @@ import com.spring.board.board.dao.BoardDAO;
 import com.spring.board.board.dao.BoardDAOImpl;
 import com.spring.board.board.service.BoardService;
 import com.spring.board.board.vo.ArticleVO;
+import com.spring.board.paging.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
 import org.junit.jupiter.api.Test;
@@ -38,7 +39,8 @@ public class MapperTest {
     public void testGetTitle() throws Exception {
 //        List<ArticleVO> articleVOS = boardService.listArticles();
 
-        List<ArticleVO> list = sqlSession.selectList("selectAllArticlesList");
+        Pagination pagination = new Pagination(1,1,18);
+        List<ArticleVO> list = sqlSession.selectList("selectAllArticlesList", pagination);
 //        List<ArticleVO> articleVOS = boardDAO.selectAllArticlesList();
 //        List<ArticleVO> list = boardDAO.selectAllArticlesList();
         for (ArticleVO articleVO : list) {

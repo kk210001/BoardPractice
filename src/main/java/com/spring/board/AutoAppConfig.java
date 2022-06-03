@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.FilterType;
 
 @Configuration
-@MapperScan(value = {"com.spring.board.board.dao.BoardDAO"})
+@MapperScan(value = {"com.spring.board.board.dao.BoardDAOImpl"})
 @ComponentScan(
         basePackages = "com.spring.board"//defualt
         )

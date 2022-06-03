@@ -16,13 +16,13 @@
 <head>
    <meta charset="UTF-8">
 <%--    <link rel="stylesheet"  href="/css/style.css">--%>
-    <link rel="stylesheet" th:href="@{/css/style.css}" href="/css/style.css"></link>
+    <link rel="stylesheet" href="/css/style.css"></link>
    <title>글보기</title>
    <style>
-     #tr_btn_modify{
+     .tr_btn_modify{
        display:none;
      }
-   
+
    </style>
    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
    <script type="text/javascript" >
@@ -34,7 +34,8 @@
 	 function modify_enable(obj){
 		 document.getElementById("i_title").disabled=false;
 		 document.getElementById("i_content").disabled=false;
-		 document.getElementById("tr_btn_modify").style.display="block";
+		 document.getElementsByClassName("tr_btn_modify")[0].style.display="block";
+		 document.getElementsByClassName("tr_btn_modify")[1].style.display="block";
 		 document.getElementById("tr_btn").style.display="none";
 	 }
 
@@ -104,13 +105,13 @@
         </tr>
         </tbody>
     </table>
-        <tr   id="tr_btn_modify"  align="center"  >
-            <td colspan="2"   >
-                <input type=button value="수정반영하기"   onClick="modify_article(frmArticle)"  >
-                <input type=button value="취소"  onClick="backToList(frmArticle)">
+        <tr align="center" >
+            <td colspan="2" >
+                <input class="tr_btn_modify" type=button value="수정반영하기"   onClick="modify_article(frmArticle)"  >
+                <input class="tr_btn_modify" type=button value="취소"  onClick="backToList(frmArticle)">
             </td>
         </tr>
-        <tr  id="tr_btn"    >
+        <tr id="tr_btn"    >
             <td colspan="2" align="center">
                 <input type=button value="수정하기" onClick="modify_enable(this.form)">
                 <input type=button value="삭제하기" onClick="remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
