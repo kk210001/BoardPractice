@@ -19,9 +19,10 @@
     <link rel="stylesheet" href="/css/style.css"></link>
    <title>글보기</title>
    <style>
-     .tr_btn_modify{
+     .btn_modify{
        display:none;
      }
+
 
    </style>
    <script  src="http://code.jquery.com/jquery-latest.min.js"></script>
@@ -34,9 +35,8 @@
 	 function modify_enable(obj){
 		 document.getElementById("i_title").disabled=false;
 		 document.getElementById("i_content").disabled=false;
-		 document.getElementsByClassName("tr_btn_modify")[0].style.display="block";
-		 document.getElementsByClassName("tr_btn_modify")[1].style.display="block";
-		 document.getElementById("tr_btn").style.display="none";
+		 document.getElementsByClassName("btn_modify")[0].style.display="inline";
+		 document.getElementsByClassName("btn_default")[0].style.display="none";
 	 }
 
 	 function modify_article(obj){
@@ -106,16 +106,20 @@
         </tbody>
     </table>
         <tr align="center" >
-            <td colspan="2" >
-                <input class="tr_btn_modify" type=button value="수정반영하기"   onClick="modify_article(frmArticle)"  >
-                <input class="tr_btn_modify" type=button value="취소"  onClick="backToList(frmArticle)">
+            <td colspan="2"  >
+                <div class="btn_modify">
+                    <input type=button value="수정반영하기"   onClick="modify_article(frmArticle)"  >
+                    <input type=button value="취소"  onClick="backToList(frmArticle)">
+                </div>
             </td>
         </tr>
-        <tr id="tr_btn"    >
+        <tr >
             <td colspan="2" align="center">
-                <input type=button value="수정하기" onClick="modify_enable(this.form)">
-                <input type=button value="삭제하기" onClick="remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
-                <input type=button value="리스트로 돌아가기" onClick="backToList(this.form)">
+                <div class="btn_default">
+                    <input type=button value="수정하기" onClick="modify_enable(this.form)">
+                    <input type=button value="삭제하기" onClick="remove_article('${contextPath}/board/removeArticle.do', ${article.articleNO})">
+                    <input type=button value="리스트로 돌아가기" onClick="backToList(this.form)">
+                </div>
             </td>
         </tr>
 
