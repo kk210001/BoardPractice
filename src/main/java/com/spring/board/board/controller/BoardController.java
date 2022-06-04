@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface BoardController {
 	
-	public ModelAndView listArticles(int page, int range, HttpServletRequest request, HttpServletResponse response) throws Exception;
+	public ModelAndView listArticles(@RequestParam("page") int page,@RequestParam("range") int range,int listSize, HttpServletRequest request, HttpServletResponse response) throws Exception;
 
 //	public ResponseEntity addNewArticle(MultipartHttpServletRequest multipartRequest,HttpServletResponse response) throws Exception;
 

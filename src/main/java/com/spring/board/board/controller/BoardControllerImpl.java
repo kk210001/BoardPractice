@@ -10,6 +10,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,12 +35,13 @@ public class BoardControllerImpl  implements BoardController{
 	@RequestMapping(value= "/board/listArticles.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView listArticles(@RequestParam(required = false,defaultValue = "1") int page,
 									 @RequestParam(required = false,defaultValue = "1") int range,
+									 @RequestParam(required = false,defaultValue = "10") int listSize,
 									 HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("리스트 호출");
 
 		int boardAllCount = boardService.getBoardAllCount();
 
-		Pagination pagination = new Pagination(page, range, boardAllCount);
+		Pagination pagination = new Pagination(page,range ,listSize, boardAllCount);
 
 		System.out.println("start = " + pagination.getStartList());
 		System.out.println("end = " + pagination.getEndList());
@@ -73,8 +75,15 @@ public class BoardControllerImpl  implements BoardController{
 	public String removeArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		boardService.removeArticle(articleNO);
-
-		return "redirect:/board/listArticles.do";
+		String gogo = request.getParameter("gogogo");
+		Enumeration params = request.getParameterNames();
+		System.out.println("----------------------------");
+		while (params.hasMoreElements()){
+			String name = (String)params.nextElement();
+			System.out.println(name + " : " +request.getParameter(name));
+		}
+		System.out.println("----------------------------");
+		return "redirect:" + gogo;
 	}
 //	@Override
 //	@RequestMapping(value="/board/removeArticle.do" ,method = RequestMethod.POST)

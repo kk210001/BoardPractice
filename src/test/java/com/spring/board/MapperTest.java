@@ -14,7 +14,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import static org.assertj.core.api.Assertions.assertThat;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @SpringBootTest
 public class MapperTest {
@@ -39,7 +42,7 @@ public class MapperTest {
     public void testGetTitle() throws Exception {
 //        List<ArticleVO> articleVOS = boardService.listArticles();
 
-        Pagination pagination = new Pagination(1,1,18);
+        Pagination pagination = new Pagination(1,1,10,40);
         List<ArticleVO> list = sqlSession.selectList("selectAllArticlesList", pagination);
 //        List<ArticleVO> articleVOS = boardDAO.selectAllArticlesList();
 //        List<ArticleVO> list = boardDAO.selectAllArticlesList();
@@ -47,6 +50,18 @@ public class MapperTest {
             System.out.println(articleVO.getTitle());
 
         }
+        ArticleVO articleVO = new ArticleVO();
+        Map<String, String> articleMap=new HashMap<>();
+//        for (int i = 70; i < 500; i++) {
+//            articleMap.put("id", (i + 50 )+"");
+//            articleMap.put("title", i+"");
+//            articleMap.put("content", i+"");
+//            boardDAO.insertNewArticle(articleMap);
+//        }
+//        for (int i = 70; i < 550; i++) {
+//            boardDAO.deleteArticle(i);
+//        }
+
     }
 //    ApplicationContext ac = new AnnotationConfigApplicationContext(AutoAppConfig.class);
 

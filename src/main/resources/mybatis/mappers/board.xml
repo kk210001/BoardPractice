@@ -5,16 +5,16 @@
 
 <mapper namespace="com.spring.board.board.dao.BoardDAOImpl">
 <resultMap id="articlesResult" type="ArticleVO">
-    <result property="level" column="level" />
     <result property="articleNO" column="articleNO" />
     <result property="parentNO" column="parentNO" />
     <result property="title" column="title" />
     <result property="content" column="content" />
     <result property="writeDate" column="writeDate" />
     <result property="viewCount" column="viewCount" />
+    <result property="id" column="id" />
   </resultMap>
 
-    <select id="selectAllArticlesList" resultMap="articlesResult"   >
+    <select id="selectAllArticlesList" resultMap="articlesResult" >
     <![CDATA[
         select * from (
                           select /*+ INDEX_DESC(t_board pk_board) */
@@ -23,9 +23,8 @@
                               writeDate,
                               id,
                               viewCount
-                          from t_board
+                          from (select * from t_board ORDER BY articleNO DESC)
                           where rownum <=#{endList}
-                          ORDER BY articleNO DESC
                       ) where RNUM >= #{startList}
                       ]]>
   </select>

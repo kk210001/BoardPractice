@@ -4,10 +4,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <c:set var="articlesList" value="${articlesList}" />
-<%--<c:set var="totArticles" value="${articlesMap.totArticles}" />--%>
-<%--<c:set var="section" value="${articlesMap.section}" />--%>
-<%--<c:set var="pageNum" value="${articlesMap.pageNum}" />--%>
-<%--<c:set var="pageCnt" value="${articlesMap.pageCnt}" />--%>
 
 <%
     request.setCharacterEncoding("UTF-8");
@@ -19,7 +15,26 @@
     <meta charset="UTF-8">
     <title>글목록창</title>
     <script>
-        function fn_pagination(page, range) {
+        function prev(page, range, rangeSize) {
+
+            var page = ((range - 2) * rangeSize) + 1;
+            var range = range - 1;
+            var url = "${pageContext.request.contextPath}/board/listArticles.do";
+            url = url + "?page=" + page;
+            url = url + "&range=" + range;
+            location.href = url;
+        }
+        function pagination(page, range) {
+            var url = "${contextPath}/board/listArticles.do";
+            url = url + "?page=" + page;
+            url = url + "&range=" + range;
+            location.href = url;
+        }
+
+        function next(page, range, rangeSize) {
+
+            var page = parseInt((range * rangeSize)) + 1;
+            var range = parseInt(range) + 1;
             var url = "${pageContext.request.contextPath}/board/listArticles.do";
             url = url + "?page=" + page;
             url = url + "&range=" + range;
@@ -82,7 +97,8 @@
                    varStatus="articleNum">
         <tr>
             <td width="5%">
-                    ${pagination.listCount - (pagination.listSize * (pagination.page-1)) - (articleNum.count-1)}
+<%--                    ${pagination.listCount - (pagination.listSize * (pagination.page-1)) - (articleNum.count-1)}--%>
+                    ${article.articleNO}
 <%--        ${article.articleNO }--%>
             </td>
             <td width="35%" class="title">
@@ -101,9 +117,22 @@
         <br> <a class="btn" href="${contextPath}/board/articleForm.do" style="text-decoration-line:none;float: left"><p>글쓰기</p></a>
         <div class="page_wrap">
             <div class="page_nation">
-                <c:forEach begin="1" end="${pagination.pageCount}" var="idx">
-                    <a style="text-decoration-line: none" href="#" onClick="fn_pagination('${idx}', '${pagination.range}')"> ${idx} </a>
+                <c:if test="${pagination.page > pagination.rangeSize}">
+                        <a href="#" onClick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">이전</a>
+                </c:if>
+                <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
+                    <c:choose>
+                        <c:when test="${pagination.page==idx}">
+                            <a style="text-decoration-line: none;background-color: #252525" href="#" onClick="pagination('${idx}', '${pagination.range}')"> ${idx} </a>
+                        </c:when>
+                        <c:otherwise>
+                            <a style="text-decoration-line: none" href="#" onClick="pagination('${idx}', '${pagination.range}')"> ${idx} </a>
+                        </c:otherwise>
+                    </c:choose>
                 </c:forEach>
+                <c:if test="${pagination.page + pagination.rangeSize < pagination.pageCount}">
+                    <a  href="#" onClick="next('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">다음</a>
+                </c:if>
             </div>
         </div>
     </tr>

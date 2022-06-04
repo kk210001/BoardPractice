@@ -51,6 +51,12 @@
          articleNOInput.setAttribute("type","hidden");
          articleNOInput.setAttribute("name","articleNO");
          articleNOInput.setAttribute("value", articleNO);
+         form.appendChild(articleNOInput);
+
+         var articleNOInput = document.createElement("input");
+         articleNOInput.setAttribute("type","hidden");
+         articleNOInput.setAttribute("name","gogogo");
+         articleNOInput.setAttribute("value", document.referrer.toString());
 
          form.appendChild(articleNOInput);
          document.body.appendChild(form);
