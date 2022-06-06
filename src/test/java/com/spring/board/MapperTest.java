@@ -5,6 +5,7 @@ import com.spring.board.board.dao.BoardDAO;
 import com.spring.board.board.dao.BoardDAOImpl;
 import com.spring.board.board.service.BoardService;
 import com.spring.board.board.vo.ArticleVO;
+import com.spring.board.paging.PageMaker;
 import com.spring.board.paging.Pagination;
 import lombok.RequiredArgsConstructor;
 import org.apache.ibatis.session.SqlSession;
@@ -27,22 +28,31 @@ public class MapperTest {
     private final SqlSession sqlSession;
     private final BoardController boardController;
     private final BoardService boardService;
+    private final PageMaker pageMaker;
 
-    @Autowired
-    public MapperTest(BoardDAO boardDAO, SqlSession sqlSession, BoardController boardController, BoardService boardService) {
-        this.boardDAO = boardDAO;
-        this.sqlSession = sqlSession;
-        this.boardController = boardController;
-        this.boardService = boardService;
-    }
-
+//    @Autowired
+//    public MapperTest(BoardDAO boardDAO, SqlSession sqlSession, BoardController boardController, BoardService boardService) {
+//        this.boardDAO = boardDAO;
+//        this.sqlSession = sqlSession;
+//        this.boardController = boardController;
+//        this.boardService = boardService;
+//    }
+@Autowired
+public MapperTest(BoardDAO boardDAO, SqlSession sqlSession, BoardController boardController, BoardService boardService, PageMaker pageMaker) {
+    this.boardDAO = boardDAO;
+    this.sqlSession = sqlSession;
+    this.boardController = boardController;
+    this.boardService = boardService;
+    this.pageMaker = pageMaker;
+}
 
 
     @Test
     public void testGetTitle() throws Exception {
 //        List<ArticleVO> articleVOS = boardService.listArticles();
 
-        Pagination pagination = new Pagination(1,1,10,40);
+//        Pagination pagination = new Pagination(1,1,10,40);
+        Pagination pagination = pageMaker.pageSort(1, 1, 10, 40);
         List<ArticleVO> list = sqlSession.selectList("selectAllArticlesList", pagination);
 //        List<ArticleVO> articleVOS = boardDAO.selectAllArticlesList();
 //        List<ArticleVO> list = boardDAO.selectAllArticlesList();

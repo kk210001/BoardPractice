@@ -19,24 +19,21 @@ public class Pagination {
     private int endList;
     private int range;
 
-    public Pagination(int page,int range, int listSize, int listCount) {
-        this.range = range;
-        this.listCount = listCount;
-        this.page = page;
-        this.listSize = listSize;
-        this.rangeSize=10;
-        this.pageCount = (int) Math.ceil(listCount/(double)listSize); //올림
-        this.startPage = (range-1) * listSize + 1;
-//        this.startList =
-//                listCount - page * listSize +1 < 1 ? 1 : listCount - page * listSize +1;
-//        this.endList = listCount - ((page -1) * listSize) ;
-
-        this.startList = (page-1) * listSize +1 ;
-        int tmpList = page * listSize;
-        this.endList = tmpList < listCount ? tmpList : listCount;
-
-        int tmpPage = range * rangeSize;
-        this.endPage = tmpPage < pageCount ? tmpPage : pageCount;
+//    public Pagination(int page,int range, int listSize, int listCount) {
+//        this.range = range;
+//        this.listCount = listCount;
+//        this.page = page;
+//        this.listSize = listSize;
+//        this.rangeSize=10;
+//        this.pageCount = (int) Math.ceil(listCount/(double)listSize); //올림
+//        this.startPage = (range-1) * listSize + 1;
+//
+//        this.startList = (page-1) * listSize +1 ;
+//        int tmpList = page * listSize;
+//        this.endList = tmpList < listCount ? tmpList : listCount;
+//
+//        int tmpPage = range * rangeSize;
+//        this.endPage = tmpPage < pageCount ? tmpPage : pageCount;
 
 
 //        this.startList =
@@ -49,5 +46,5 @@ public class Pagination {
 //            this.endList = listCount;
 //        }
 //        this.startList = endPage - 9 > 0 ? endPage - 9:1;
-    }
+
 }

@@ -21,7 +21,7 @@ import javax.sql.DataSource;
 
 
 @MapperScan(value = {"com.spring.board.board.dao.BoardDAOImpl"})
-@SpringBootApplication(scanBasePackages = "com.spring.board.board")
+@SpringBootApplication(scanBasePackages = "com.spring.board")
 public class BoardApplication {
 
 

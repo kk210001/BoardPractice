@@ -2,6 +2,7 @@ package com.spring.board.board.controller;
 
 import com.spring.board.board.service.BoardService;
 import com.spring.board.board.vo.ArticleVO;
+import com.spring.board.paging.PageMaker;
 import com.spring.board.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,11 +26,17 @@ public class BoardControllerImpl  implements BoardController{
 //	}
 
 	private final BoardService boardService;
+	private final PageMaker pageMaker;
 
 	@Autowired
-	public BoardControllerImpl(BoardService boardService) {
+	public BoardControllerImpl(BoardService boardService, PageMaker pageMaker) {
 		this.boardService = boardService;
+		this.pageMaker = pageMaker;
 	}
+//	@Autowired
+//	public BoardControllerImpl(BoardService boardService) {
+//		this.boardService = boardService;
+//	}
 
 	@Override
 	@RequestMapping(value= "/board/listArticles.do", method = {RequestMethod.GET, RequestMethod.POST})
@@ -41,13 +48,13 @@ public class BoardControllerImpl  implements BoardController{
 
 		int boardAllCount = boardService.getBoardAllCount();
 
-		Pagination pagination = new Pagination(page,range ,listSize, boardAllCount);
-
-		System.out.println("start = " + pagination.getStartList());
-		System.out.println("end = " + pagination.getEndList());
-		System.out.println("count = " + pagination.getPageCount());
-		System.out.println("listCount = " + pagination.getListCount());
-
+//		Pagination pagination = new Pagination(page,range ,listSize, boardAllCount);
+//
+//		System.out.println("start = " + pagination.getStartList());
+//		System.out.println("end = " + pagination.getEndList());
+//		System.out.println("count = " + pagination.getPageCount());
+//		System.out.println("listCount = " + pagination.getListCount());
+		Pagination pagination = pageMaker.pageSort(page,range ,listSize, boardAllCount);
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("pagination", pagination);
