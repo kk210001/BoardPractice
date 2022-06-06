@@ -27,8 +27,6 @@ public class PageMakerImpl implements PageMaker{
         int tmpPage = range * pagination.getRangeSize();
         pagination.setEndPage(tmpPage < pageCount ? tmpPage : pageCount);
 
-        System.out.println("tmpPage = " + tmpPage);
-
         return pagination;
 
     }

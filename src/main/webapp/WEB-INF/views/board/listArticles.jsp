@@ -80,6 +80,7 @@
             <th>번호</th>
             <th><span></span>제목</th>
             <th>작성자</th>
+            <th>조회</th>
             <th>작성일</th>
         </tr>
         </thead>
@@ -105,6 +106,7 @@
                 <a class="board-title" href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
             </td>
             <td width="10%">${article.id }</td>
+            <td width="5%">${article.viewCount }</td>
             <td width="10%"><fmt:formatDate
                     value="${article.writeDate}" /></td>
 
