@@ -17,7 +17,6 @@ public class Pagination {
     private int endPage;
     private int startList;
     private int endList;
-    private int range;
 
 //    public Pagination(int page,int range, int listSize, int listCount) {
 //        this.range = range;

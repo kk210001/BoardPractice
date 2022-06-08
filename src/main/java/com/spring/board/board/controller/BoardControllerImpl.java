@@ -41,7 +41,6 @@ public class BoardControllerImpl  implements BoardController{
 	@Override
 	@RequestMapping(value= "/board/listArticles.do", method = {RequestMethod.GET, RequestMethod.POST})
 	public ModelAndView listArticles(@RequestParam(required = false,defaultValue = "1") int page,
-									 @RequestParam(required = false,defaultValue = "1") int range,
 									 @RequestParam(required = false,defaultValue = "10") int listSize,
 									 HttpServletRequest request, HttpServletResponse response) throws Exception {
 		System.out.println("리스트 호출");
@@ -54,7 +53,7 @@ public class BoardControllerImpl  implements BoardController{
 //		System.out.println("end = " + pagination.getEndList());
 //		System.out.println("count = " + pagination.getPageCount());
 //		System.out.println("listCount = " + pagination.getListCount());
-		Pagination pagination = pageMaker.pageSort(page,range ,listSize, boardAllCount);
+		Pagination pagination = pageMaker.pageSort(page ,listSize, boardAllCount);
 		ModelAndView mav = new ModelAndView();
 
 		mav.addObject("pagination", pagination);

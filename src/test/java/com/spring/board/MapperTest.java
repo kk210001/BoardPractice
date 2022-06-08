@@ -52,7 +52,7 @@ public MapperTest(BoardDAO boardDAO, SqlSession sqlSession, BoardController boar
 //        List<ArticleVO> articleVOS = boardService.listArticles();
 
 //        Pagination pagination = new Pagination(1,1,10,40);
-        Pagination pagination = pageMaker.pageSort(1, 1, 10, 40);
+        Pagination pagination = pageMaker.pageSort(1,10, 40);
         List<ArticleVO> list = sqlSession.selectList("selectAllArticlesList", pagination);
 //        List<ArticleVO> articleVOS = boardDAO.selectAllArticlesList();
 //        List<ArticleVO> list = boardDAO.selectAllArticlesList();
@@ -62,12 +62,12 @@ public MapperTest(BoardDAO boardDAO, SqlSession sqlSession, BoardController boar
         }
         ArticleVO articleVO = new ArticleVO();
         Map<String, String> articleMap=new HashMap<>();
-//        for (int i = 70; i < 500; i++) {
-//            articleMap.put("id", (i + 50 )+"");
-//            articleMap.put("title", i+"");
-//            articleMap.put("content", i+"");
-//            boardDAO.insertNewArticle(articleMap);
-//        }
+        for (int i = 70; i < 500; i++) {
+            articleMap.put("id", (i + 50 )+"");
+            articleMap.put("title", i+"");
+            articleMap.put("content", i+"");
+            boardDAO.insertNewArticle(articleMap);
+        }
 //        for (int i = 70; i < 550; i++) {
 //            boardDAO.deleteArticle(i);
 //        }

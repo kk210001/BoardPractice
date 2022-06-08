@@ -15,29 +15,34 @@
     <meta charset="UTF-8">
     <title>글목록창</title>
     <script>
-        function prev(page, range, rangeSize) {
+        function prev(page, rangeSize) {
 
-            var page = ((range - 2) * rangeSize) + 1;
-            var range = range - 1;
+            var page = parseInt(page) - parseInt(rangeSize);
+            while(page % 10 != 0){
+                page++;
+            }
             var url = "${pageContext.request.contextPath}/board/listArticles.do";
             url = url + "?page=" + page;
-            url = url + "&range=" + range;
+            // var range = range - 1;
+            // url = url + "&range=" + range;
             location.href = url;
         }
-        function pagination(page, range) {
+        function pagination(page) {
             var url = "${contextPath}/board/listArticles.do";
             url = url + "?page=" + page;
-            url = url + "&range=" + range;
             location.href = url;
         }
 
-        function next(page, range, rangeSize) {
+        function next(page , rangeSize) {
 
-            var page = parseInt((range * rangeSize)) + 1;
-            var range = parseInt(range) + 1;
+            var page = parseInt(page) + parseInt(rangeSize);
+            while(page % 10 != 1){
+                page--;
+            }
             var url = "${pageContext.request.contextPath}/board/listArticles.do";
             url = url + "?page=" + page;
-            url = url + "&range=" + range;
+            // var range = parseInt(range) + 1;
+            // url = url + "&range=" + range;
             location.href = url;
         }
     </script>
@@ -120,20 +125,20 @@
         <div class="page_wrap">
             <div class="page_nation">
                 <c:if test="${pagination.page > pagination.rangeSize}">
-                        <a href="#" onClick="fn_prev('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">이전</a>
+                        <a href="#" onClick="prev('${pagination.page}', '${pagination.rangeSize}')">이전</a>
                 </c:if>
                 <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
                     <c:choose>
                         <c:when test="${pagination.page==idx}">
-                            <a style="text-decoration-line: none;background-color: #252525" href="#" onClick="pagination('${idx}', '${pagination.range}')"> ${idx} </a>
+                            <a style="text-decoration-line: none;background-color: #252525" href="#" onClick="pagination('${idx}')"> ${idx} </a>
                         </c:when>
                         <c:otherwise>
-                            <a style="text-decoration-line: none" href="#" onClick="pagination('${idx}', '${pagination.range}')"> ${idx} </a>
+                            <a style="text-decoration-line: none" href="#" onClick="pagination('${idx}')"> ${idx} </a>
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
                 <c:if test="${pagination.page + pagination.rangeSize < pagination.pageCount}">
-                    <a  href="#" onClick="next('${pagination.page}', '${pagination.range}', '${pagination.rangeSize}')">다음</a>
+                    <a  href="#" onClick="next('${pagination.page}', '${pagination.rangeSize}')">다음</a>
                 </c:if>
             </div>
         </div>
