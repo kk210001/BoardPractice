@@ -6,6 +6,7 @@ import com.spring.board.paging.PageMaker;
 import com.spring.board.paging.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -19,11 +20,8 @@ import java.util.Map;
 
 
 @Controller("boardController")
+@RequestMapping("/board")
 public class BoardControllerImpl  implements BoardController{
-//	@Override
-//	public ModelAndView listArticles(HttpServletRequest request, HttpServletResponse response) throws Exception {
-//		return null;
-//	}
 
 	private final BoardService boardService;
 	private final PageMaker pageMaker;
@@ -39,10 +37,10 @@ public class BoardControllerImpl  implements BoardController{
 //	}
 
 	@Override
-	@RequestMapping(value= "/board/listArticles.do", method = {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView listArticles(@RequestParam(required = false,defaultValue = "1") int page,
+	@RequestMapping(value = "/listArticles.do",method = {RequestMethod.GET,RequestMethod.POST})
+	public String listArticles(@RequestParam(required = false,defaultValue = "1") int page,
 									 @RequestParam(required = false,defaultValue = "10") int listSize,
-									 HttpServletRequest request, HttpServletResponse response) throws Exception {
+									 Model model) throws Exception {
 		System.out.println("리스트 호출");
 
 		int boardAllCount = boardService.getBoardAllCount();
@@ -54,30 +52,34 @@ public class BoardControllerImpl  implements BoardController{
 //		System.out.println("count = " + pagination.getPageCount());
 //		System.out.println("listCount = " + pagination.getListCount());
 		Pagination pagination = pageMaker.pageSort(page ,listSize, boardAllCount);
-		ModelAndView mav = new ModelAndView();
 
-		mav.addObject("pagination", pagination);
+		model.addAttribute("pagination", pagination);
 		List<ArticleVO> articlesList = boardService.listArticles(pagination);
-		mav.addObject("articlesList", articlesList);
-		mav.setViewName("listArticles");
-		return mav;
+		model.addAttribute("articlesList", articlesList);
+		return "listArticles";
 	}
 
 	@Override
-	@RequestMapping(value="/board/addNewArticle.do" ,method = {RequestMethod.GET, RequestMethod.POST})
-	public String addNewArticle(HttpServletRequest request, HttpServletResponse response) throws Exception {
+	@PostMapping("/addNewArticle.do")
+	public String addNewArticle(@ModelAttribute("article") ArticleVO articleVO) throws Exception {
 
-		Map<String, String> articleMap=new HashMap<>();
-		articleMap.put("id", request.getParameter("id"));
-		articleMap.put("title", request.getParameter("title"));
-		articleMap.put("content", request.getParameter("content"));
+		Map<String, String> articleMap = setArticleMap(articleVO);
 		boardService.addNewArticle(articleMap);
 
 		return "redirect:/board/listArticles.do";
 	}
 
+	//add Article
+	private Map<String, String> setArticleMap(ArticleVO articleVO) {
+		Map<String, String> articleMap=new HashMap<>();
+		articleMap.put("id", articleVO.getId());
+		articleMap.put("title", articleVO.getTitle());
+		articleMap.put("content", articleVO.getContent());
+		return articleMap;
+	}
+
 	@Override
-	@RequestMapping(value="/board/removeArticle.do" ,method = RequestMethod.POST)
+	@PostMapping("/removeArticle.do")
 	public String removeArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
 		boardService.removeArticle(articleNO);
@@ -103,57 +105,47 @@ public class BoardControllerImpl  implements BoardController{
 //	}
 
 	@Override
-	@RequestMapping(value="/board/viewArticle.do" ,method = RequestMethod.GET)
-	public ModelAndView viewArticle(@RequestParam("articleNO") int articleNO,
-									HttpServletRequest request, HttpServletResponse response) throws Exception{
-//		Map articleMap = boardService.viewArticle(articleNO);
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("viewArticle");
-//		mav.addObject("articleMap", articleMap);
-		return viewBoard(articleNO);
+	@RequestMapping(value = "/viewArticle.do",method = {RequestMethod.GET,RequestMethod.POST})
+	public String viewArticle(@RequestParam("articleNO") int articleNO,
+									Model model) throws Exception{
+		return viewBoard(articleNO, model);
 	}
 
 	@Override
-	@RequestMapping(value="/board/modArticle.do" ,method = RequestMethod.POST)
-	public ModelAndView modArticle(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		String articleNo = request.getParameter("articleNO");
+	@PostMapping("/modArticle.do")
+	public String modArticle(@ModelAttribute("article") ArticleVO articleVO,Model model) throws Exception {
 
-		Map<String, String> articleMap=new HashMap<>();
-		articleMap.put("title", request.getParameter("title"));
-		articleMap.put("content", request.getParameter("content"));
-		articleMap.put("articleNO", articleNo);
-
+		Map<String, String> articleMap = getArticleMap(articleVO);
 		boardService.modArticle(articleMap);
 
-		int boardNO= Integer.parseInt(articleNo);
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("viewArticle");
-//		Map viewBorad=boardService.viewArticle(boardNO);
-//		mav.addObject("articleMap", viewBorad);
-		return viewBoard(boardNO);
+		int articleNo = Integer.parseInt(articleMap.get("articleNO"));
+		System.out.println("articleNo = " + articleNo);
+
+		return viewBoard(articleNo, model);
+	}
+
+	//mod Article
+	private Map<String, String> getArticleMap(ArticleVO articleVO) {
+		Map<String, String> articleMap=new HashMap<>();
+		articleMap.put("title", articleVO.getTitle());
+		articleMap.put("content", articleVO.getContent());
+		articleMap.put("articleNO", articleVO.getArticleNO() + "");
+		return articleMap;
 	}
 
 
-	@RequestMapping(value = "/board/*Form.do", method =  RequestMethod.GET)
+	@RequestMapping(value = "/*Form.do", method =  RequestMethod.GET)
 	private ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("articleForm");
 		return mav;
 	}
 
-	private ModelAndView getBoardList(Pagination pagination) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		List<ArticleVO> articlesList = boardService.listArticles(pagination);
-		mav.addObject("articlesList", articlesList);
-		mav.setViewName("listArticles");
-		return mav;
-	}
-	private ModelAndView viewBoard(int articleNO) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("viewArticle");
+	private String viewBoard(int articleNO, Model model) throws Exception {
+
 		Map articleMap=boardService.viewArticle(articleNO);
-		mav.addObject("articleMap", articleMap);
-		return mav;
+		model.addAttribute("articleMap", articleMap);
+		return "viewArticle";
 	}
 
 }
