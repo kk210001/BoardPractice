@@ -22,7 +22,7 @@ public interface BoardController {
 	public String viewArticle(@RequestParam("articleNO") int articleNO,
 			                        Model model) throws Exception;
 	public String removeArticle(@RequestParam("articleNO") int articleNO,
-									  HttpServletRequest request, HttpServletResponse response) throws Exception;
+								@RequestParam("articleURL") String articleURL) throws Exception;
 	public String modArticle(@ModelAttribute("article") ArticleVO articleVO,Model model) throws Exception;
 	//public ResponseEntity modArticle(MultipartHttpServletRequest multipartRequest,  HttpServletResponse response) throws Exception;
 //	public ResponseEntity  removeArticle(@RequestParam("articleNO") int articleNO,

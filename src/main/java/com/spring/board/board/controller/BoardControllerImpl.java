@@ -8,11 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -31,26 +26,17 @@ public class BoardControllerImpl  implements BoardController{
 		this.boardService = boardService;
 		this.pageMaker = pageMaker;
 	}
-//	@Autowired
-//	public BoardControllerImpl(BoardService boardService) {
-//		this.boardService = boardService;
-//	}
 
 	@Override
 	@RequestMapping(value = "/listArticles.do",method = {RequestMethod.GET,RequestMethod.POST})
 	public String listArticles(@RequestParam(required = false,defaultValue = "1") int page,
 									 @RequestParam(required = false,defaultValue = "10") int listSize,
 									 Model model) throws Exception {
+
 		System.out.println("리스트 호출");
 
 		int boardAllCount = boardService.getBoardAllCount();
 
-//		Pagination pagination = new Pagination(page,range ,listSize, boardAllCount);
-//
-//		System.out.println("start = " + pagination.getStartList());
-//		System.out.println("end = " + pagination.getEndList());
-//		System.out.println("count = " + pagination.getPageCount());
-//		System.out.println("listCount = " + pagination.getListCount());
 		Pagination pagination = pageMaker.pageSort(page ,listSize, boardAllCount);
 
 		model.addAttribute("pagination", pagination);
@@ -80,29 +66,13 @@ public class BoardControllerImpl  implements BoardController{
 
 	@Override
 	@PostMapping("/removeArticle.do")
-	public String removeArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public String removeArticle(@RequestParam("articleNO") int articleNO,
+			@RequestParam("articleURL") String articleURL) throws Exception {
 
 		boardService.removeArticle(articleNO);
-		String gogo = request.getParameter("gogogo");
-		Enumeration params = request.getParameterNames();
-		System.out.println("----------------------------");
-		while (params.hasMoreElements()){
-			String name = (String)params.nextElement();
-			System.out.println(name + " : " +request.getParameter(name));
-		}
-		System.out.println("----------------------------");
-		return "redirect:" + gogo;
+		System.out.println("articleURL = " + articleURL);
+		return "redirect:" + articleURL;
 	}
-//	@Override
-//	@RequestMapping(value="/board/removeArticle.do" ,method = RequestMethod.POST)
-//	public ModelAndView removeArticle(@RequestParam("articleNO") int articleNO, HttpServletRequest request, HttpServletResponse response) throws Exception {
-//
-//		boardService.removeArticle(articleNO);
-//		ModelAndView mav = new ModelAndView();
-//		mav.setViewName("redirect:/board/listArticles.do");
-//
-//		return mav;
-//	}
 
 	@Override
 	@RequestMapping(value = "/viewArticle.do",method = {RequestMethod.GET,RequestMethod.POST})
@@ -119,7 +89,6 @@ public class BoardControllerImpl  implements BoardController{
 		boardService.modArticle(articleMap);
 
 		int articleNo = Integer.parseInt(articleMap.get("articleNO"));
-		System.out.println("articleNo = " + articleNo);
 
 		return viewBoard(articleNo, model);
 	}
@@ -134,11 +103,9 @@ public class BoardControllerImpl  implements BoardController{
 	}
 
 
-	@RequestMapping(value = "/*Form.do", method =  RequestMethod.GET)
-	private ModelAndView form(HttpServletRequest request, HttpServletResponse response) throws Exception {
-		ModelAndView mav = new ModelAndView();
-		mav.setViewName("articleForm");
-		return mav;
+	@GetMapping("/*Form.do") //글쓰기 클릭시
+	private String form() throws Exception {
+		return "articleForm";
 	}
 
 	private String viewBoard(int articleNO, Model model) throws Exception {
