@@ -10,6 +10,7 @@ public interface BoardService {
 
 //	public List<ArticleVO> listArticles() throws Exception;
 	public List<ArticleVO> listArticles(Pagination pagination) throws Exception;
+	public List<ArticleVO> listArticlesAjax(ArticleVO ArticleVO) throws Exception;
 	public int addNewArticle(Map articleMap) throws Exception;
 	//public ArticleVO viewArticle(int articleNO) throws Exception;
 	public Map viewArticle(int articleNO) throws Exception;

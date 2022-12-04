@@ -15,7 +15,6 @@
   </resultMap>
 
     <select id="selectAllArticlesList" resultMap="articlesResult" >
-    <![CDATA[
         select * from (
                           select /*+ INDEX_DESC(t_board pk_board) */
                               rownum RNUM,articleNO,parentNO,title,
@@ -24,10 +23,17 @@
                               id,
                               viewCount
                           from (select * from t_board ORDER BY articleNO DESC)
-                          where rownum <=#{endList}
-                      ) where RNUM >= #{startList}
-                      ]]>
+                          where 1=1
+                         <choose>
+                         <when test="type !=null and type.equals('title')">
+                            And title LIKE '%'||#{keyword}||'%'
+                         </when>
+                         </choose>
+                         And rownum  <![CDATA[<=]]>#{endList}
+                      ) where RNUM  <![CDATA[>=]]> #{startList}
+
   </select>
+
     <select id="tableAllCount" resultType="int">
         select count(*) from t_board
     </select>

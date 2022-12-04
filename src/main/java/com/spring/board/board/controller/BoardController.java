@@ -13,7 +13,12 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface BoardController {
 	
-	public String listArticles(@RequestParam("page") int page,int listSize, Model model) throws Exception;
+	public String listArticles(@RequestParam("page") int page,
+							   @RequestParam("listSize") int listSize,
+							   @RequestParam("type") String type,
+							   @RequestParam("keyword") String keyword, Model model) throws Exception;
+
+	public String getSearchBoard(@RequestParam("type") String type,@RequestParam("keyword") String keyword, Model model) throws Exception;
 
 //	public ResponseEntity addNewArticle(MultipartHttpServletRequest multipartRequest,HttpServletResponse response) throws Exception;
 
@@ -27,5 +32,6 @@ public interface BoardController {
 	//public ResponseEntity modArticle(MultipartHttpServletRequest multipartRequest,  HttpServletResponse response) throws Exception;
 //	public ResponseEntity  removeArticle(@RequestParam("articleNO") int articleNO,
 //                              HttpServletRequest request, HttpServletResponse response) throws Exception;
+
 
 }

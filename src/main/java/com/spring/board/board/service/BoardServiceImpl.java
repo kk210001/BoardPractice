@@ -3,6 +3,7 @@ package com.spring.board.board.service;
 import com.spring.board.board.dao.BoardDAO;
 import com.spring.board.board.vo.ArticleVO;
 import com.spring.board.paging.Pagination;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,8 +13,11 @@ import java.util.Map;
 
 
 //@Transactional(propagation = Propagation.REQUIRED)
+@Slf4j
 @Service("boardService")
 public class BoardServiceImpl implements BoardService {
+
+
 
     private final BoardDAO boardDAO;
 
@@ -22,10 +26,19 @@ public class BoardServiceImpl implements BoardService {
         this.boardDAO = boardDAO;
     }
 
+    @Override
     public List<ArticleVO> listArticles(Pagination pagination) throws Exception {
         List<ArticleVO> articlesList = boardDAO.selectAllArticlesList(pagination);
         return articlesList;
     }
+
+    @Override
+    public List<ArticleVO> listArticlesAjax(ArticleVO ArticleVO) throws Exception {
+        List<ArticleVO> articlesList = boardDAO.selectAjaxArticlesList(ArticleVO);
+        log.info("ajax 요청 service 에서 변환 성공");
+        return articlesList;
+    }
+
 
 
     @Override
@@ -57,10 +70,6 @@ public class BoardServiceImpl implements BoardService {
         boardDAO.deleteArticle(articleNO);
     }
 
-//	@Override
-//	public List<ArticleVO> listArticles() throws Exception {
-//		return null;
-//	}
 
     @Override
     public int getBoardAllCount() throws Exception {

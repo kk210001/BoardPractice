@@ -15,6 +15,20 @@
     <meta charset="UTF-8">
     <title>글목록창</title>
     <script>
+
+        function getSearchBoard(){
+            var type = searchForm.type.value;
+            var keyword = searchForm.keyword.value;
+
+            if(keyword === ''){
+                alert('검색어를 입력해주세요.')
+            }else{
+                alert(type + " " + keyword)
+                var url = "${pageContext.request.contextPath}/board/listArticles.do";
+                url = url + "?type="+type + "&keyword="+keyword;
+                location.href = url;
+            }
+        }
         function prev(page, rangeSize) {
 
             var page = parseInt(page) - parseInt(rangeSize);
@@ -78,7 +92,8 @@
 <body>
 
 <div class="container">
-    <h3>게시판 목록</h3>
+    <h3 style="display: inline">게시판 목록</h3>
+    <input type="button" style="float: right" onclick="getSearchList()" class="btn btn-outline-primary mr-2"value="로그인">
     <table class="board_list">
         <thead>
         <tr height="10" align="center">
@@ -103,9 +118,9 @@
                    varStatus="articleNum">
         <tr>
             <td width="5%">
-<%--                    ${pagination.listCount - (pagination.listSize * (pagination.page-1)) - (articleNum.count-1)}--%>
+                    <%--                    ${pagination.listCount - (pagination.listSize * (pagination.page-1)) - (articleNum.count-1)}--%>
                     ${article.articleNO}
-<%--        ${article.articleNO }--%>
+                    <%--        ${article.articleNO }--%>
             </td>
             <td width="35%" class="title">
                 <a class="board-title" href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
@@ -125,7 +140,7 @@
         <div class="page_wrap">
             <div class="page_nation">
                 <c:if test="${pagination.page > pagination.rangeSize}">
-                        <a href="#" onClick="prev('${pagination.page}', '${pagination.rangeSize}')">이전</a>
+                    <a href="#" onClick="prev('${pagination.page}', '${pagination.rangeSize}')">이전</a>
                 </c:if>
                 <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
                     <c:choose>
@@ -143,6 +158,17 @@
             </div>
         </div>
     </tr>
+    <div style="margin-left: 400px; margin-top: 10px" >
+        <form name="searchForm" autocomplete="off">
+            <select name="type">
+                <option selected value="title">제목</option>
+                <option value="content">내용</option>
+                <option value="id">작성자</option>
+            </select>
+            <input type="text" name="keyword" value="">
+            <input type="button" onclick="getSearchBoard()" class="btn btn-outline-primary mr-2"value="검색">
+        </form>
+    </div>
     </tbody>
 </div>
 </body>

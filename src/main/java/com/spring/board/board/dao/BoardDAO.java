@@ -13,6 +13,7 @@ import java.util.Map;
 public interface BoardDAO {
 //	public List<ArticleVO> selectAllArticlesList() throws DataAccessException;
 	public List<ArticleVO> selectAllArticlesList(Pagination pagination) throws DataAccessException;
+	public List<ArticleVO> selectAjaxArticlesList(ArticleVO articleVO) throws DataAccessException;
 	public int insertNewArticle(Map articleMap) throws DataAccessException;
 
 	public ArticleVO selectArticle(int articleNO) throws DataAccessException;

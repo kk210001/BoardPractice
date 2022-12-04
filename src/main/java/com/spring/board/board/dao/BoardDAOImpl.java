@@ -3,6 +3,7 @@ package com.spring.board.board.dao;
 import com.spring.board.board.vo.ArticleVO;
 import com.spring.board.paging.Pagination;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,11 +15,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Slf4j
 @Mapper
 @Repository("boardDAO")
 public class BoardDAOImpl implements BoardDAO {
 
 	private final SqlSession sqlSession;
+
+
 
 	@Autowired
 	public BoardDAOImpl(SqlSession sqlSession) {
@@ -36,6 +40,13 @@ public class BoardDAOImpl implements BoardDAO {
 	public List<ArticleVO> selectAllArticlesList(Pagination pagination) throws DataAccessException {
 		List<ArticleVO> articlesList = sqlSession.selectList("selectAllArticlesList", pagination);
 		System.out.println("게시글 리스트 호출 완료");
+		return articlesList;
+	}
+
+	@Override
+	public List<ArticleVO> selectAjaxArticlesList(ArticleVO articleVO) throws DataAccessException {
+		List<ArticleVO> articlesList = sqlSession.selectList("selectAjaxArticlesList", articleVO);
+		log.info("ajax 요청 dao 에서 성공 완료");
 		return articlesList;
 	}
 

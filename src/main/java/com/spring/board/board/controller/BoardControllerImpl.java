@@ -1,10 +1,13 @@
 package com.spring.board.board.controller;
 
 import com.spring.board.board.service.BoardService;
+import com.spring.board.board.service.BoardServiceImpl;
 import com.spring.board.board.vo.ArticleVO;
 import com.spring.board.paging.PageMaker;
 import com.spring.board.paging.Pagination;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,6 +17,7 @@ import java.util.Map;
 
 
 
+@Slf4j
 @Controller("boardController")
 @RequestMapping("/board")
 public class BoardControllerImpl  implements BoardController{
@@ -28,18 +32,37 @@ public class BoardControllerImpl  implements BoardController{
 	}
 
 	@Override
-	@RequestMapping(value = "/listArticles.do",method = {RequestMethod.GET,RequestMethod.POST})
+	@RequestMapping("/getSearchBoard")
+	public String getSearchBoard(@RequestParam("type") String type,
+								 @RequestParam("keyword") String keyword, Model model) throws Exception {
+		log.info("ajax 요청 controller 진입 : {} {}",type, keyword);
+		ArticleVO articleVO = new ArticleVO();
+//		articleVO.setKeyword(keyword);
+//		articleVO.setType(type);
+		List<ArticleVO> articlesList = boardService.listArticlesAjax(articleVO);
+		model.addAttribute("articleList", articlesList);
+		return "listArticles";
+	}
+
+	@Override
+	@RequestMapping(value = "/listArticles.do")
 	public String listArticles(@RequestParam(required = false,defaultValue = "1") int page,
 									 @RequestParam(required = false,defaultValue = "10") int listSize,
+							  		 @RequestParam(required = false) String type,
+							  		 @RequestParam(required = false) String keyword,
 									 Model model) throws Exception {
 
-		System.out.println("리스트 호출");
+		log.info("게시글 출력 페이지 : {}", page);
 
 		int boardAllCount = boardService.getBoardAllCount();
 
 		Pagination pagination = pageMaker.pageSort(page ,listSize, boardAllCount);
 
+		pagination.setKeyword(keyword);
+		pagination.setType(type);
+
 		model.addAttribute("pagination", pagination);
+
 		List<ArticleVO> articlesList = boardService.listArticles(pagination);
 		model.addAttribute("articlesList", articlesList);
 		return "listArticles";
@@ -114,5 +137,8 @@ public class BoardControllerImpl  implements BoardController{
 		model.addAttribute("articleMap", articleMap);
 		return "viewArticle";
 	}
+
+
+
 
 }
