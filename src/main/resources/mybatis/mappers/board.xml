@@ -25,9 +25,15 @@
                           from (select * from t_board ORDER BY articleNO DESC)
                           where 1=1
                          <choose>
-                         <when test="type !=null and type.equals('title')">
-                            And title LIKE '%'||#{keyword}||'%'
-                         </when>
+                             <when test="type !=null and type.equals('title')">
+                                And title LIKE '%'||#{keyword}||'%'
+                            </when>
+                            <when test="type !=null and type.equals('content')">
+                                And content LIKE '%'||#{keyword}||'%'
+                            </when>
+                             <when test="type !=null and type.equals('id')">
+                                And id LIKE '%'||#{keyword}||'%'
+                            </when>
                          </choose>
                          And rownum  <![CDATA[<=]]>#{endList}
                       ) where RNUM  <![CDATA[>=]]> #{startList}
