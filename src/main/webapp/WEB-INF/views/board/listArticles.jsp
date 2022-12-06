@@ -23,7 +23,6 @@
             if(keyword === ''){
                 alert('검색어를 입력해주세요.')
             }else{
-                alert(type + " " + keyword)
                 var url = "${pageContext.request.contextPath}/board/listArticles.do";
                 url = url + "?type="+type + "&keyword="+keyword;
                 location.href = url;

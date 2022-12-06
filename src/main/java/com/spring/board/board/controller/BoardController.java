@@ -18,8 +18,6 @@ public interface BoardController {
 							   @RequestParam("type") String type,
 							   @RequestParam("keyword") String keyword, Model model) throws Exception;
 
-	public String getSearchBoard(@RequestParam("type") String type,@RequestParam("keyword") String keyword, Model model) throws Exception;
-
 //	public ResponseEntity addNewArticle(MultipartHttpServletRequest multipartRequest,HttpServletResponse response) throws Exception;
 
 	public String addNewArticle (@ModelAttribute("article") ArticleVO articleVO) throws Exception;

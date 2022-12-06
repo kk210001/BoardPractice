@@ -23,26 +23,12 @@ import java.util.Map;
 public class BoardControllerImpl  implements BoardController{
 
 	private final BoardService boardService;
-	private final PageMaker pageMaker;
 
 	@Autowired
-	public BoardControllerImpl(BoardService boardService, PageMaker pageMaker) {
+	public BoardControllerImpl(BoardService boardService) {
 		this.boardService = boardService;
-		this.pageMaker = pageMaker;
 	}
 
-	@Override
-	@RequestMapping("/getSearchBoard")
-	public String getSearchBoard(@RequestParam("type") String type,
-								 @RequestParam("keyword") String keyword, Model model) throws Exception {
-		log.info("ajax 요청 controller 진입 : {} {}",type, keyword);
-		ArticleVO articleVO = new ArticleVO();
-//		articleVO.setKeyword(keyword);
-//		articleVO.setType(type);
-		List<ArticleVO> articlesList = boardService.listArticlesAjax(articleVO);
-		model.addAttribute("articleList", articlesList);
-		return "listArticles";
-	}
 
 	@Override
 	@RequestMapping(value = "/listArticles.do")
@@ -54,19 +40,15 @@ public class BoardControllerImpl  implements BoardController{
 
 		log.info("게시글 출력 페이지 : {}", page);
 
-		int boardAllCount = boardService.getBoardAllCount();
-
-		Pagination pagination = pageMaker.pageSort(page ,listSize, boardAllCount);
-
-		pagination.setKeyword(keyword);
-		pagination.setType(type);
-
+		Pagination pagination = boardService.paging(page, listSize, type, keyword);
 		model.addAttribute("pagination", pagination);
 
 		List<ArticleVO> articlesList = boardService.listArticles(pagination);
 		model.addAttribute("articlesList", articlesList);
+
 		return "listArticles";
 	}
+
 
 	@Override
 	@PostMapping("/addNewArticle.do")
@@ -93,7 +75,7 @@ public class BoardControllerImpl  implements BoardController{
 			@RequestParam("articleURL") String articleURL) throws Exception {
 
 		boardService.removeArticle(articleNO);
-		System.out.println("articleURL = " + articleURL);
+		log.info("delete articleNO = {}", articleNO);
 		return "redirect:" + articleURL;
 	}
 
@@ -126,10 +108,10 @@ public class BoardControllerImpl  implements BoardController{
 	}
 
 
-	@GetMapping("/*Form.do") //글쓰기 클릭시
-	private String form() throws Exception {
-		return "articleForm";
-	}
+//	@GetMapping("/*Form.do") //글쓰기 클릭시
+//	private String form() throws Exception {
+//		return "articleForm";
+//	}
 
 	private String viewBoard(int articleNO, Model model) throws Exception {
 

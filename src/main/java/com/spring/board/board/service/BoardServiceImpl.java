@@ -2,7 +2,10 @@ package com.spring.board.board.service;
 
 import com.spring.board.board.dao.BoardDAO;
 import com.spring.board.board.vo.ArticleVO;
+import com.spring.board.paging.PageMaker;
 import com.spring.board.paging.Pagination;
+import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,16 +18,13 @@ import java.util.Map;
 //@Transactional(propagation = Propagation.REQUIRED)
 @Slf4j
 @Service("boardService")
+@RequiredArgsConstructor
 public class BoardServiceImpl implements BoardService {
 
 
 
     private final BoardDAO boardDAO;
-
-    @Autowired
-    public BoardServiceImpl(BoardDAO boardDAO) {
-        this.boardDAO = boardDAO;
-    }
+    private final PageMaker pageMaker;
 
     @Override
     public List<ArticleVO> listArticles(Pagination pagination) throws Exception {
@@ -33,13 +33,14 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public List<ArticleVO> listArticlesAjax(ArticleVO ArticleVO) throws Exception {
-        List<ArticleVO> articlesList = boardDAO.selectAjaxArticlesList(ArticleVO);
-        log.info("ajax 요청 service 에서 변환 성공");
-        return articlesList;
+    public Pagination paging(int page, int listSize, String type, String keyword) throws Exception {
+
+        int boardAllCount = boardDAO.getBoardAllCount();
+        Pagination pagination = pageMaker.pageSort(page, listSize, boardAllCount);
+        pagination.setKeyword(keyword);
+        pagination.setType(type);
+        return pagination;
     }
-
-
 
     @Override
     public int addNewArticle(Map articleMap) throws Exception {
@@ -70,11 +71,6 @@ public class BoardServiceImpl implements BoardService {
         boardDAO.deleteArticle(articleNO);
     }
 
-
-    @Override
-    public int getBoardAllCount() throws Exception {
-        return boardDAO.getBoardAllCount();
-    }
 
 
 }

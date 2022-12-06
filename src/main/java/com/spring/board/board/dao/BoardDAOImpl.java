@@ -29,13 +29,6 @@ public class BoardDAOImpl implements BoardDAO {
 		this.sqlSession = sqlSession;
 	}
 
-//	@Override
-//	public List<ArticleVO> selectAllArticlesList() throws DataAccessException {
-//
-//		List<ArticleVO> articlesList = sqlSession.selectList("selectAllArticlesList");
-//		System.out.println("성공");
-//		return articlesList;
-//	}
 	@Override
 	public List<ArticleVO> selectAllArticlesList(Pagination pagination) throws DataAccessException {
 		List<ArticleVO> articlesList = sqlSession.selectList("selectAllArticlesList", pagination);
@@ -43,14 +36,6 @@ public class BoardDAOImpl implements BoardDAO {
 		return articlesList;
 	}
 
-	@Override
-	public List<ArticleVO> selectAjaxArticlesList(ArticleVO articleVO) throws DataAccessException {
-		List<ArticleVO> articlesList = sqlSession.selectList("selectAjaxArticlesList", articleVO);
-		log.info("ajax 요청 dao 에서 성공 완료");
-		return articlesList;
-	}
-
-	
 	@Override
 	public int insertNewArticle(Map articleMap) throws DataAccessException {
 		System.out.println(" 삽입 완료");
