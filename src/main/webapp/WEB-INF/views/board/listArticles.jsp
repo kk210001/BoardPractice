@@ -36,12 +36,13 @@
                 page++;
             }
             <%--var url = "${pageContext.request.contextPath}/board/listArticles.do";--%>
-            var url = document.location.href;
-            var arr = url.split("page")
+            // var url = document.location.href;
+            // var arr = url.split("page")
             // url = url + "/board/listArticles.do";
             // url = url + "?page=" + page;
-            url = arr[0] + "page=" + page;
-            location.href = url;
+            // url = arr[0] + "page=" + page;
+            // location.href = url;
+            pagination(page);
         }
         function next(page , rangeSize) {
 
@@ -49,9 +50,13 @@
             while(page % 10 != 1){
                 page--;
             }
-            var url = "${pageContext.request.contextPath}/board/listArticles.do";
-            url = url + "?page=" + page;
-            location.href = url;
+            pagination(page);
+            <%--var url = "${pageContext.request.contextPath}/board/listArticles.do";--%>
+            <%--url = url + "?page=" + page;--%>
+            // var url = document.location.href;
+            // var arr = url.split("page")
+            // url = arr[0] + "page=" + page;
+            // location.href = url;
         }
         <%--function pagination(page) {--%>
         <%--    var url = "${contextPath}/board/listArticles.do";--%>
@@ -59,6 +64,16 @@
         <%--    location.href = url;--%>
         <%--}--%>
         function pagination(page) {
+            // var arr = url.split("page=");
+            // url = url + "/board/listArticles.do";
+            // url = url + "?page=" + page;
+            // if(arr[0].indexOf("type") != -1 && arr[0].charAt(arr[0].length-1) != "&"){
+            //     url = arr[0] + "&page=" + page;
+            // } else if(arr[0].indexOf("type") == -1 && arr[0].charAt(arr[0].length-1) != "&"){
+            //     url = arr[0] + "?page=" + page;
+            // }else {
+            //     url = arr[0] +"page=" + page;
+            // }
             var url = document.location.href;
             if (url.indexOf("?page=") == -1 && url.indexOf("type") == -1) {
                 var arr = url.split("?page=");
@@ -70,16 +85,6 @@
                 var arr = url.split("page=");
                 url = arr[0] + "page=" + page;
             }
-            // var arr = url.split("page=");
-            // url = url + "/board/listArticles.do";
-            // url = url + "?page=" + page;
-            // if(arr[0].indexOf("type") != -1 && arr[0].charAt(arr[0].length-1) != "&"){
-            //     url = arr[0] + "&page=" + page;
-            // } else if(arr[0].indexOf("type") == -1 && arr[0].charAt(arr[0].length-1) != "&"){
-            //     url = arr[0] + "?page=" + page;
-            // }else {
-            //     url = arr[0] +"page=" + page;
-            // }
             location.href = url;
         }
     </script>
