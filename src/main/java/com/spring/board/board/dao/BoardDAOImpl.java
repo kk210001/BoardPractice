@@ -18,16 +18,10 @@ import java.util.Map;
 @Slf4j
 @Mapper
 @Repository("boardDAO")
+@RequiredArgsConstructor
 public class BoardDAOImpl implements BoardDAO {
 
 	private final SqlSession sqlSession;
-
-
-
-	@Autowired
-	public BoardDAOImpl(SqlSession sqlSession) {
-		this.sqlSession = sqlSession;
-	}
 
 	@Override
 	public List<ArticleVO> selectAllArticlesList(Pagination pagination) throws DataAccessException {

@@ -2,8 +2,6 @@ package com.spring.board.board.dao;
 
 import com.spring.board.board.vo.ArticleVO;
 import com.spring.board.paging.Pagination;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
 import org.springframework.dao.DataAccessException;
 
 import java.util.List;
