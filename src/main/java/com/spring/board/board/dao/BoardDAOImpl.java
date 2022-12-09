@@ -1,17 +1,14 @@
 package com.spring.board.board.dao;
 
-import com.spring.board.board.vo.ArticleVO;
+import com.spring.board.board.dto.ArticleDTO;
 import com.spring.board.paging.Pagination;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.session.SqlSession;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,8 +21,8 @@ public class BoardDAOImpl implements BoardDAO {
 	private final SqlSession sqlSession;
 
 	@Override
-	public List<ArticleVO> selectAllArticlesList(Pagination pagination) throws DataAccessException {
-		List<ArticleVO> articlesList = sqlSession.selectList("selectAllArticlesList", pagination);
+	public List<ArticleDTO> selectAllArticlesList(Pagination pagination) throws DataAccessException {
+		List<ArticleDTO> articlesList = sqlSession.selectList("selectAllArticlesList", pagination);
 		System.out.println("게시글 리스트 호출 완료");
 		return articlesList;
 	}
@@ -53,7 +50,7 @@ public class BoardDAOImpl implements BoardDAO {
 
 
 	@Override
-	public ArticleVO selectArticle(int articleNO) throws DataAccessException {
+	public ArticleDTO selectArticle(int articleNO) throws DataAccessException {
 		System.out.println("게시글 호출 완료 " );
 		return sqlSession.selectOne("selectArticle", articleNO);
 	}

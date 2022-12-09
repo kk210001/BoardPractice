@@ -1,16 +1,13 @@
-package com.spring.board.member.vo;
+package com.spring.board.member.dto;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
 
-@Component("memberVo")
+@Component("memberDTO")
 @Data
-public class MemberVO {
+public class MemberDTO {
 	private String memberId;
 	private String password;
 	private String nickname;

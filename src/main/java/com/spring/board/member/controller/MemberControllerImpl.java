@@ -1,6 +1,6 @@
 package com.spring.board.member.controller;
 
-import com.spring.board.member.vo.MemberVO;
+import com.spring.board.member.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Controller;
@@ -17,13 +17,14 @@ public class MemberControllerImpl implements MemberController{
 
     @Override
     @GetMapping("/add")
-    public String addForm(MemberVO memberVO) throws Exception {
+    public String addForm() throws Exception {
+        System.out.println("memberVO");
         return "members/addMemberForm";
     }
 
     @Override
     @PostMapping("/add")
-    public String addForm(MemberVO memberVO, BindingResult bindingResult) throws Exception {
+    public String addForm(MemberDTO memberDTO, BindingResult bindingResult) throws Exception {
         if(bindingResult.hasErrors()){
             return "members/addMemberForm";
         }

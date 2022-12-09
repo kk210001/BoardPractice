@@ -1,6 +1,6 @@
 package com.spring.board.member.dao;
 
-import com.spring.board.member.vo.MemberVO;
+import com.spring.board.member.dto.MemberDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.annotations.Mapper;
@@ -17,24 +17,24 @@ public class MemberDAOImpl implements MemberDAO{
     private final SqlSession sqlSession;
 
     @Override
-    public void insertNewMember(MemberVO memberVO) throws DataAccessException {
-        System.out.println("memberVO = " + memberVO);
-        sqlSession.insert("addMember",memberVO);
+    public void insertNewMember(MemberDTO memberDTO) throws DataAccessException {
+        System.out.println("memberDTO = " + memberDTO);
+        sqlSession.insert("addMember", memberDTO);
         System.out.println(" sqlsession 확인");
-        log.info("add member = {}",memberVO);
+        log.info("add member = {}", memberDTO);
     }
 
     @Override
-    public MemberVO selectMember(String memberId) throws DataAccessException {
-        MemberVO selectMember = sqlSession.selectOne("selectMember", memberId);
+    public MemberDTO selectMember(String memberId) throws DataAccessException {
+        MemberDTO selectMember = sqlSession.selectOne("selectMember", memberId);
         log.info("search member = {}", selectMember);
         return selectMember;
     }
 
     @Override
-    public void updateMember(MemberVO memberVO) throws DataAccessException {
-        sqlSession.update("updateMember", memberVO);
-        log.info("update member = {}",memberVO);
+    public void updateMember(MemberDTO memberDTO) throws DataAccessException {
+        sqlSession.update("updateMember", memberDTO);
+        log.info("update member = {}", memberDTO);
     }
 
     @Override

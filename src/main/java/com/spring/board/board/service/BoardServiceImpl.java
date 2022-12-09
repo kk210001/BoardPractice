@@ -1,13 +1,11 @@
 package com.spring.board.board.service;
 
 import com.spring.board.board.dao.BoardDAO;
-import com.spring.board.board.vo.ArticleVO;
+import com.spring.board.board.dto.ArticleDTO;
 import com.spring.board.paging.PageMaker;
 import com.spring.board.paging.Pagination;
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -27,8 +25,8 @@ public class BoardServiceImpl implements BoardService {
     private final PageMaker pageMaker;
 
     @Override
-    public List<ArticleVO> listArticles(Pagination pagination) throws Exception {
-        List<ArticleVO> articlesList = boardDAO.selectAllArticlesList(pagination);
+    public List<ArticleDTO> listArticles(Pagination pagination) throws Exception {
+        List<ArticleDTO> articlesList = boardDAO.selectAllArticlesList(pagination);
         return articlesList;
     }
 
@@ -54,8 +52,8 @@ public class BoardServiceImpl implements BoardService {
     public Map viewArticle(int articleNO) throws Exception {
         Map articleMap = new HashMap();
         boardDAO.addViewCount(articleNO);
-        ArticleVO articleVO = boardDAO.selectArticle(articleNO);
-        articleMap.put("article", articleVO);
+        ArticleDTO ArticleDTO = boardDAO.selectArticle(articleNO);
+        articleMap.put("article", ArticleDTO);
         return articleMap;
     }
 

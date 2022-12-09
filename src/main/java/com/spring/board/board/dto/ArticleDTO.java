@@ -1,15 +1,14 @@
-package com.spring.board.board.vo;
+package com.spring.board.board.dto;
 
-import com.spring.board.paging.Pagination;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.stereotype.Component;
 
 import java.sql.Date;
 
-@Component("articleVO")
+@Component("articleDTO")
 @Getter@Setter
-public class ArticleVO {
+public class ArticleDTO {
 	private int articleNO;
 	private int parentNO;
 	private int viewCount;

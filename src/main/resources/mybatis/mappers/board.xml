@@ -4,7 +4,7 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.board.board.dao.BoardDAOImpl">
-<resultMap id="articlesResult" type="ArticleVO">
+<resultMap id="articlesResult" type="ArticleDTO">
     <result property="articleNO" column="articleNO" />
     <result property="parentNO" column="parentNO" />
     <result property="title" column="title" />
@@ -58,7 +58,7 @@
 		]]>
 	</select>
 
-  <select id="selectArticle" resultType="articleVO"   parameterType="int">
+  <select id="selectArticle" resultType="ArticleDTO"   parameterType="int">
     <![CDATA[
       SELECT * from t_board
       where articleNO = #{articleNO}

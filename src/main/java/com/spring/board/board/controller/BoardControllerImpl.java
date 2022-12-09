@@ -1,13 +1,10 @@
 package com.spring.board.board.controller;
 
+import com.spring.board.board.dto.ArticleDTO;
 import com.spring.board.board.service.BoardService;
-import com.spring.board.board.service.BoardServiceImpl;
-import com.spring.board.board.vo.ArticleVO;
-import com.spring.board.paging.PageMaker;
 import com.spring.board.paging.Pagination;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -43,29 +40,29 @@ public class BoardControllerImpl  implements BoardController{
 		Pagination pagination = boardService.paging(page, listSize, type, keyword);
 		model.addAttribute("pagination", pagination);
 
-		List<ArticleVO> articlesList = boardService.listArticles(pagination);
+		List<ArticleDTO> articlesList = boardService.listArticles(pagination);
 		model.addAttribute("articlesList", articlesList);
 
-		return "listArticles";
+		return "board/listArticles";
 	}
 
 
 	@Override
 	@PostMapping("/addNewArticle.do")
-	public String addNewArticle(@ModelAttribute("article") ArticleVO articleVO) throws Exception {
+	public String addNewArticle(@ModelAttribute("article") ArticleDTO ArticleDTO) throws Exception {
 
-		Map<String, String> articleMap = setArticleMap(articleVO);
+		Map<String, String> articleMap = setArticleMap(ArticleDTO);
 		boardService.addNewArticle(articleMap);
 
 		return "redirect:/board/listArticles.do";
 	}
 
 	//add Article
-	private Map<String, String> setArticleMap(ArticleVO articleVO) {
+	private Map<String, String> setArticleMap(ArticleDTO ArticleDTO) {
 		Map<String, String> articleMap=new HashMap<>();
-		articleMap.put("id", articleVO.getId());
-		articleMap.put("title", articleVO.getTitle());
-		articleMap.put("content", articleVO.getContent());
+		articleMap.put("id", ArticleDTO.getId());
+		articleMap.put("title", ArticleDTO.getTitle());
+		articleMap.put("content", ArticleDTO.getContent());
 		return articleMap;
 	}
 
@@ -88,9 +85,9 @@ public class BoardControllerImpl  implements BoardController{
 
 	@Override
 	@PostMapping("/modArticle.do")
-	public String modArticle(@ModelAttribute("article") ArticleVO articleVO,Model model) throws Exception {
+	public String modArticle(@ModelAttribute("article") ArticleDTO ArticleDTO, Model model) throws Exception {
 
-		Map<String, String> articleMap = getArticleMap(articleVO);
+		Map<String, String> articleMap = getArticleMap(ArticleDTO);
 		boardService.modArticle(articleMap);
 
 		int articleNo = Integer.parseInt(articleMap.get("articleNO"));
@@ -99,25 +96,25 @@ public class BoardControllerImpl  implements BoardController{
 	}
 
 	//mod Article
-	private Map<String, String> getArticleMap(ArticleVO articleVO) {
+	private Map<String, String> getArticleMap(ArticleDTO ArticleDTO) {
 		Map<String, String> articleMap=new HashMap<>();
-		articleMap.put("title", articleVO.getTitle());
-		articleMap.put("content", articleVO.getContent());
-		articleMap.put("articleNO", articleVO.getArticleNO() + "");
+		articleMap.put("title", ArticleDTO.getTitle());
+		articleMap.put("content", ArticleDTO.getContent());
+		articleMap.put("articleNO", ArticleDTO.getArticleNO() + "");
 		return articleMap;
 	}
 
 
-//	@GetMapping("/*Form.do") //글쓰기 클릭시
-//	private String form() throws Exception {
-//		return "articleForm";
-//	}
+	@GetMapping("/*Form.do") //글쓰기 클릭시
+	private String form() throws Exception {
+		return "board/articleForm";
+	}
 
 	private String viewBoard(int articleNO, Model model) throws Exception {
 
 		Map articleMap=boardService.viewArticle(articleNO);
 		model.addAttribute("articleMap", articleMap);
-		return "viewArticle";
+		return "board/viewArticle";
 	}
 
 

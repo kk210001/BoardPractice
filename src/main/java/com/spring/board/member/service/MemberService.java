@@ -1,9 +1,9 @@
 package com.spring.board.member.service;
 
-import com.spring.board.member.vo.MemberVO;
+import com.spring.board.member.dto.MemberDTO;
 
 public interface MemberService {
-    public void addMember(MemberVO memberVO) throws Exception;
-    public MemberVO selectMember(String memberId) throws Exception;
+    public void addMember(MemberDTO memberDTO) throws Exception;
+    public MemberDTO selectMember(String memberId) throws Exception;
     public void deleteMember(String memberId) throws Exception;
 }

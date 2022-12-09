@@ -120,7 +120,8 @@
 
 <div class="container">
     <h3 style="display: inline">게시판 목록</h3>
-    <input type="button" style="float: right" onclick="getSearchList()" class="btn btn-outline-primary mr-2"value="로그인">
+<%--    <input type="button" style="float: right" href="${contextPath}/members/add" class="btn btn-outline-primary mr-2"value="로그인">--%>
+    <br> <a class="btn" href="${contextPath}/members/add" style="text-decoration-line:none;float: right"><p>로그인</p></a>
     <table class="board_list">
         <thead>
         <tr height="10" align="center">

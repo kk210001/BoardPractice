@@ -4,7 +4,7 @@
    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.board.member.dao.MemberDAOImpl">
-<resultMap id="membersResult" type="MemberVo">
+<resultMap id="membersResult" type="MemberDTO">
     <result property="memberId" column="member_id" />
     <result property="password" column="password" />
     <result property="nickname" column="nickname" />
@@ -17,14 +17,14 @@
     </select>
 
 
-  <insert id="addMember"  parameterType="memberVO">
+  <insert id="addMember"  parameterType="memberDTO">
 		<![CDATA[
 			INSERT into member(member_id,  password, nickname, join_date)
 			VALUES(#{memberId},#{password},	#{nickname},	#{join_date})
 		]]>
 	</insert>
 
-  <select id="selectMember" resultType="memberVO"   parameterType="string" resultMap="membersResult">
+  <select id="selectMember" resultType="memberDTO"   parameterType="string" resultMap="membersResult">
     <![CDATA[
       SELECT * from member
       where member_id = #{memberId}
