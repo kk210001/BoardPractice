@@ -9,6 +9,6 @@ import javax.validation.Valid;
 
 public interface MemberController {
 
-    public String addForm() throws Exception;
+    public String getAddForm(@ModelAttribute MemberDTO memberDTO) throws Exception;
     public String addForm(@Valid @ModelAttribute MemberDTO memberDTO, BindingResult bindingResult) throws  Exception;
 }

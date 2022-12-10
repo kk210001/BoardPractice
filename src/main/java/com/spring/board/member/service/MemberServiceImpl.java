@@ -7,6 +7,9 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
+
 
 @Slf4j
 @Service("memberService")
@@ -17,20 +20,21 @@ public class MemberServiceImpl implements MemberService{
 
     @Override
     public void addMember(MemberDTO memberDTO) throws Exception {
-        memberDAO.insertNewMember(memberDTO);
+        memberDTO.setJoin_date(Timestamp.valueOf(LocalDateTime.now()));
         log.info("service layer add Member = {}", memberDTO);
+        memberDAO.insertNewMember(memberDTO);
     }
 
     @Override
     public MemberDTO selectMember(String memberId) throws Exception {
-        MemberDTO memberDTO = memberDAO.selectMember(memberId);
         log.info("service layer search Member = {}", memberId);
+        MemberDTO memberDTO = memberDAO.selectMember(memberId);
         return memberDTO;
     }
 
     @Override
     public void deleteMember(String memberId) throws Exception {
-        memberDAO.deleteMember(memberId);
         log.info("service layer delete Member = {}", memberId);
+        memberDAO.deleteMember(memberId);
     }
 }
