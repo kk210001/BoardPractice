@@ -47,7 +47,7 @@ public class LoginControllerImpl implements LoginController{
         }
 
         HttpSession session = request.getSession();
-        session.setAttribute("login_member",loginMember);
+        session.setAttribute("loginMember",loginMember);
 
         return "redirect:/board/listArticles.do";
     }
@@ -59,6 +59,6 @@ public class LoginControllerImpl implements LoginController{
         if (session != null) {
             session.invalidate();
         }
-        return "redirect:/";
+        return "redirect:/board/listArticles.do";
     }
 }

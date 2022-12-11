@@ -1,9 +1,10 @@
+<%@ page import="com.spring.board.member.dto.MemberDTO" %>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-         pageEncoding="UTF-8" isELIgnored="false"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<c:set var="contextPath" value="${pageContext.request.contextPath}" />
-<c:set var="articlesList" value="${articlesList}" />
+         pageEncoding="UTF-8" isELIgnored="false" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
+<c:set var="articlesList" value="${articlesList}"/>
 
 <%
     request.setCharacterEncoding("UTF-8");
@@ -11,27 +12,28 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet"  href="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
     <meta charset="UTF-8">
     <title>글목록창</title>
     <script>
 
-        function getSearchBoard(){
+        function getSearchBoard() {
             var type = searchForm.type.value;
             var keyword = searchForm.keyword.value;
 
-            if(keyword === ''){
+            if (keyword === '') {
                 alert('검색어를 입력해주세요.')
-            }else{
+            } else {
                 var url = "${pageContext.request.contextPath}/board/listArticles.do";
-                url = url + "?type="+type + "&keyword="+keyword;
+                url = url + "?type=" + type + "&keyword=" + keyword;
                 location.href = url;
             }
         }
+
         function prev(page, rangeSize) {
 
             var page = parseInt(page) - parseInt(rangeSize);
-            while(page % 10 != 0){
+            while (page % 10 != 0) {
                 page++;
             }
             <%--var url = "${pageContext.request.contextPath}/board/listArticles.do";--%>
@@ -43,10 +45,11 @@
             // location.href = url;
             pagination(page);
         }
-        function next(page , rangeSize) {
+
+        function next(page, rangeSize) {
 
             var page = parseInt(page) + parseInt(rangeSize);
-            while(page % 10 != 1){
+            while (page % 10 != 1) {
                 page--;
             }
             pagination(page);
@@ -57,11 +60,13 @@
             // url = arr[0] + "page=" + page;
             // location.href = url;
         }
+
         <%--function pagination(page) {--%>
         <%--    var url = "${contextPath}/board/listArticles.do";--%>
         <%--    url = url + "?page=" + page;--%>
         <%--    location.href = url;--%>
         <%--}--%>
+
         function pagination(page) {
             // var arr = url.split("page=");
             // url = url + "/board/listArticles.do";
@@ -77,7 +82,7 @@
             if (url.indexOf("?page=") == -1 && url.indexOf("type") == -1) {
                 var arr = url.split("?page=");
                 url = arr[0] + "?page=" + page;
-            } else if (url.indexOf("&page=") == -1 &&  url.indexOf("type") != -1) {
+            } else if (url.indexOf("&page=") == -1 && url.indexOf("type") != -1) {
                 var arr = url.split("&page=");
                 url = arr[0] + "&page=" + page;
             } else {
@@ -89,30 +94,33 @@
     </script>
     <style>
         .page_wrap {
-            text-align:center;
-            font-size:0;
+            text-align: center;
+            font-size: 0;
         }
+
         .page_nation {
-            display:inline-block;
+            display: inline-block;
         }
+
         .page_nation a {
-            display:block;
-            margin:0 3px;
-            float:left;
-            border:1px solid #e6e6e6;
-            width:28px;
-            height:28px;
-            line-height:28px;
-            text-align:center;
-            background-color:#fff;
-            font-size:13px;
-            color:#999999;
-            text-decoration:none;
+            display: block;
+            margin: 0 3px;
+            float: left;
+            border: 1px solid #e6e6e6;
+            width: 28px;
+            height: 28px;
+            line-height: 28px;
+            text-align: center;
+            background-color: #fff;
+            font-size: 13px;
+            color: #999999;
+            text-decoration: none;
         }
+
         .page_nation a:hover {
-            background-color:#42454c;
-            color:#fff;
-            border:1px solid #42454c;
+            background-color: #42454c;
+            color: #fff;
+            border: 1px solid #42454c;
         }
     </style>
 </head>
@@ -120,8 +128,17 @@
 
 <div class="container">
     <h3 style="display: inline">게시판 목록</h3>
-<%--    <input type="button" style="float: right" href="${contextPath}/members/add" class="btn btn-outline-primary mr-2"value="로그인">--%>
-    <br> <a class="btn" href="${contextPath}/login" style="text-decoration-line:none;float: right"><p>로그인</p></a>
+    <c:choose>
+        <c:when test="${empty loginMember}">
+            <br> <a class="btn" href="${contextPath}/login" style="text-decoration-line:none;float: right"><p>로그인</p></a>
+        </c:when>
+    <c:otherwise>
+        <div>
+            <br> <a class="btn" href="${contextPath}/logout" style="text-decoration-line:none;float: right"><p>로그아웃</p></a>
+            <p style="float: right;margin-top: 10px"><b>${loginMember.nickname}</b>님 반갑습니다!</p>
+        </div>
+    </c:otherwise>
+    </c:choose>
     <table class="board_list">
         <thead>
         <tr height="10" align="center">
@@ -151,12 +168,13 @@
                     <%--        ${article.articleNO }--%>
             </td>
             <td width="35%" class="title">
-                <a class="board-title" href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
+                <a class="board-title"
+                   href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
             </td>
             <td width="10%">${article.id }</td>
             <td width="5%">${article.viewCount }</td>
             <td width="10%"><fmt:formatDate
-                    value="${article.writeDate}" /></td>
+                    value="${article.writeDate}"/></td>
 
         </tr>
         </c:forEach>
@@ -164,7 +182,8 @@
         </c:choose>
     </table>
     <tr>
-        <br> <a class="btn" href="${contextPath}/board/articleForm.do" style="text-decoration-line:none;float: left"><p>글쓰기</p></a>
+        <br> <a class="btn" href="${contextPath}/board/articleForm.do" style="text-decoration-line:none;float: left"><p>
+        글쓰기</p></a>
         <div class="page_wrap">
             <div class="page_nation">
                 <c:if test="${pagination.page > pagination.rangeSize}">
@@ -173,7 +192,8 @@
                 <c:forEach begin="${pagination.startPage}" end="${pagination.endPage}" var="idx">
                     <c:choose>
                         <c:when test="${pagination.page==idx}">
-                            <a style="text-decoration-line: none;background-color: #252525" href="#" onClick="pagination('${idx}')"> ${idx} </a>
+                            <a style="text-decoration-line: none;background-color: #252525" href="#"
+                               onClick="pagination('${idx}')"> ${idx} </a>
                         </c:when>
                         <c:otherwise>
                             <a style="text-decoration-line: none" href="#" onClick="pagination('${idx}')"> ${idx} </a>
@@ -181,12 +201,12 @@
                     </c:choose>
                 </c:forEach>
                 <c:if test="${pagination.page + pagination.rangeSize < pagination.pageCount}">
-                    <a  href="#" onClick="next('${pagination.page}', '${pagination.rangeSize}')">다음</a>
+                    <a href="#" onClick="next('${pagination.page}', '${pagination.rangeSize}')">다음</a>
                 </c:if>
             </div>
         </div>
     </tr>
-    <div style="margin-left: 400px; margin-top: 10px" >
+    <div style="margin-left: 400px; margin-top: 10px">
         <form name="searchForm" autocomplete="off">
             <select name="type">
                 <option selected value="title">제목</option>
@@ -194,10 +214,9 @@
                 <option value="id">작성자</option>
             </select>
             <input type="text" name="keyword" value="">
-            <input type="button" onclick="getSearchBoard()" class="btn btn-outline-primary mr-2"value="검색">
+            <input type="button" onclick="getSearchBoard()" class="btn btn-outline-primary mr-2" value="검색">
         </form>
     </div>
     </tbody>
 </div>
 </body>
-</html>
