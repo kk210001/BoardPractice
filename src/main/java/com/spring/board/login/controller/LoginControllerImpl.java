@@ -31,6 +31,7 @@ public class LoginControllerImpl implements LoginController{
     @Override
     @PostMapping("/login")
     public String login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
+                        @RequestParam(defaultValue = "/board/listArticles.do") String redirectURL,
                         HttpServletRequest request,Model model) {
 //        model.addAttribute("command", form);
         log.info("loginForm = {}", form);
@@ -49,7 +50,8 @@ public class LoginControllerImpl implements LoginController{
         HttpSession session = request.getSession();
         session.setAttribute("loginMember",loginMember);
 
-        return "redirect:/board/listArticles.do";
+    //    return "redirect:/board/listArticles.do";
+        return "redirect:" + redirectURL;
     }
 
     @Override

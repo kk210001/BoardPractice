@@ -12,6 +12,7 @@ import javax.validation.Valid;
 public interface LoginController {
     public String loginForm(@ModelAttribute LoginForm loginForm, Model model);
     public String login(@Valid @ModelAttribute LoginForm form, BindingResult bindingResult,
+                          String redirectURL,
                           HttpServletRequest request, Model model);
     public String logout(HttpServletRequest request);
 }
