@@ -4,10 +4,14 @@ import com.spring.board.board.dto.ArticleDTO;
 import com.spring.board.board.service.BoardService;
 import com.spring.board.paging.Pagination;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -106,7 +110,11 @@ public class BoardControllerImpl  implements BoardController{
 
 
 	@GetMapping("/*Form.do") //글쓰기 클릭시
-	private String form() throws Exception {
+	private String form(Model model, HttpServletRequest request) throws Exception {
+		HttpSession session = request.getSession();
+		Object loginMember = session.getAttribute("loginMember");
+		log.info("addArticle who = {}",loginMember);
+		model.addAttribute("member", loginMember);
 		return "board/articleForm";
 	}
 

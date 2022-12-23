@@ -31,9 +31,9 @@
     <table class="board_detail">
       		<tr>
 					<td align="center" width="10%">작성자</td>
-					<td width="30%"><input type="text" size="20" maxlength="20"  name="id" /> </td>
+					<td width="30%"><input type="text" size="20" maxlength="20"  name="id" value=${member.nickname} disabled/> </td>
 				<td></td>
-				<td width="20%"></td>
+				<td width="20%" ></td>
 			</tr>
 	     <tr>
 			   <td align="center">제목 </td>
