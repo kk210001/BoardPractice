@@ -15,14 +15,14 @@ public class LoginServiceImpl implements LoginService {
 
     @Override
     public MemberDTO login(String loginId, String password)  {
-        //      MemberDTO member = memberDAO.selectMember(loginId);
-  //      if (member.getPassword().equals(password)){
-  //         return member;
- //       }else {
- //           return null;
-//        }
-        return Optional.of(memberDAO.selectMember(loginId))
-                .filter(m -> m.getPassword().equals(password))
-                .orElse(null);
+              MemberDTO member = memberDAO.selectMember(loginId);
+        if (member.getPassword().equals(password)){
+           return member;
+        }else {
+            return null;
+        }
+//        return Optional.of(memberDAO.selectMember(loginId))
+//                .filter(m -> m.getPassword().equals(password))
+//                .orElse(null);
     }
 }

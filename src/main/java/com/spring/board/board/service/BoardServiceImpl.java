@@ -65,7 +65,7 @@ public class BoardServiceImpl implements BoardService {
 
     @Override
     public void removeArticle(int articleNO) throws Exception {
-        System.out.println(" service에서 삭제완료 ");
+        log.info("service layer {}번 글 삭제", articleNO);
         boardDAO.deleteArticle(articleNO);
     }
 

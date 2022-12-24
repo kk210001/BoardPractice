@@ -4,6 +4,7 @@ isELIgnored="false" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <c:set var="contextPath"  value="${pageContext.request.contextPath}"  />
 <%
 request.setCharacterEncoding("UTF-8");
@@ -27,29 +28,7 @@ request.setCharacterEncoding("UTF-8");
     <div class="py-5 text-center">
         <h2>로그인</h2>
     </div>
-<%--    <form action="${contextPath}/login" method="post">--%>
-<%--        <div>--%>
-<%--            <label for="loginId">로그인 ID</label>--%>
-<%--            <input type="text" id="loginId" name="loginId" class="form-control">--%>
-<%--            <div class="field-error" />--%>
-<%--        </div>--%>
-<%--        <div>--%>
-<%--            <label for="password">비밀번호</label>--%>
-<%--            <input type="password" id="password" name="password" class="form-control">--%>
-<%--            <div class="field-error"/>--%>
-<%--        </div>--%>
-<%--        <hr class="my-4">--%>
-<%--        <div class="row">--%>
-<%--            <div class="col">--%>
-<%--                <button class="w-100 btn btn-secondary btn-lg"--%>
-<%--                        onclick="location.href='${contextPath}/members/add'"--%>
-<%--                        type="button">회원가입</button>--%>
-<%--            </div>--%>
-<%--            <div class="col">--%>
-<%--                <button class="w-100 btn btn-primary btn-lg" type="submit">로그인</button>--%>
-<%--            </div>--%>
-<%--        </div>--%>
-<%--    </form>--%>
+
     <form:form modelAttribute="loginForm" action="${contextPath}/login" method="post">
         <div>
             <div>
@@ -65,6 +44,14 @@ request.setCharacterEncoding("UTF-8");
             </div>
             <form:errors path="password" class="errors-fields" />
         </div>
+        <br/>
+        <spring:hasBindErrors name="loginForm">
+            <c:if test="${errors.hasErrors()}">
+                <c:forEach var="error" items="${errors.allErrors}">
+                    <b><spring:message message="${error}" /></b>
+                </c:forEach>
+            </c:if>
+        </spring:hasBindErrors>
         <hr class="my-4">
         <div class="row">
             <div class="col">
