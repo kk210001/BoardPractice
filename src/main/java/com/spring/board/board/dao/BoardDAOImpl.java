@@ -28,12 +28,10 @@ public class BoardDAOImpl implements BoardDAO {
 	}
 
 	@Override
-	public int insertNewArticle(Map articleMap) throws DataAccessException {
-		System.out.println(" 삽입 완료");
-		int articleNO = selectNewArticleNO();
-		articleMap.put("articleNO", articleNO);
+	public void insertNewArticle(Map articleMap) throws DataAccessException {
+		log.info("insert article info : {}", articleMap);
 		sqlSession.insert("insertNewArticle",articleMap);
-		return articleNO;
+		System.out.println(" 삽입 완료");
 	}
 
 
@@ -67,10 +65,10 @@ public class BoardDAOImpl implements BoardDAO {
 		System.out.println(" 삭제 완료 " );
 		
 	}
-	
 
-	
-	private int selectNewArticleNO() throws DataAccessException {
+
+	@Override
+	public int selectNewArticleNO() throws DataAccessException {
 		return sqlSession.selectOne("selectNewArticleNO");
 	}
 	

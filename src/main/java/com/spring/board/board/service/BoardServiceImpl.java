@@ -41,10 +41,10 @@ public class BoardServiceImpl implements BoardService {
     }
 
     @Override
-    public int addNewArticle(Map articleMap) throws Exception {
-        int articleNO = boardDAO.insertNewArticle(articleMap);
+    public void addNewArticle(Map articleMap) throws Exception {
+        int articleNO = boardDAO.selectNewArticleNO();
         articleMap.put("articleNO", articleNO);
-        return articleNO;
+        boardDAO.insertNewArticle(articleMap);
     }
 
 

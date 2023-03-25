@@ -18,6 +18,12 @@
     obj.action="${contextPath}/board/listArticles.do";
     obj.submit();
   }
+
+
+  function addArticle(obj){
+	  document.getElementById("id").disabled=false;
+	  obj.submit();
+  }
   
 
 </script>
@@ -31,13 +37,13 @@
     <table class="board_detail">
       		<tr>
 					<td align="center" width="10%">작성자</td>
-					<td width="30%"><input type="text" size="20" maxlength="20"  name="id" value=${member.nickname} disabled/> </td>
+					<td width="30%"><input type="text" size="20" maxlength="20"  id="id" name="id" value=${member.nickname} disabled/> </td>
 				<td></td>
 				<td width="20%" ></td>
 			</tr>
 	     <tr>
 			   <td align="center">제목 </td>
-			   <td colspan="2"><input type="text" size="67"  maxlength="500" name="title" /></td>
+			   <td colspan="2"><input type="text" size="67"  maxlength="500" name="title"/></td>
 			  <td></td>
 		 </tr>
 	 		<tr>
@@ -46,7 +52,7 @@
 
     </table>
 	  <tr>
-		  <td><input type="submit" value="글쓰기" /></td>
+		  <td><input type="button" value="글쓰기" onClick="addArticle(this.form)"/></td>
 		  <td><input type=button value="목록보기"onClick="backToList(this.form)" /></td>
 	  </tr>
   </form>

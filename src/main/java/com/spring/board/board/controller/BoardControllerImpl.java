@@ -4,7 +4,6 @@ import com.spring.board.board.dto.ArticleDTO;
 import com.spring.board.board.service.BoardService;
 import com.spring.board.paging.Pagination;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.catalina.connector.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
