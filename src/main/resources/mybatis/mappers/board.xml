@@ -6,23 +6,22 @@
 <mapper namespace="com.spring.board.board.dao.BoardDAOImpl">
 <resultMap id="articlesResult" type="ArticleDTO">
     <result property="articleNO" column="articleNO" />
-    <result property="parentNO" column="parentNO" />
     <result property="title" column="title" />
     <result property="content" column="content" />
     <result property="writeDate" column="writeDate" />
     <result property="viewCount" column="viewCount" />
-    <result property="id" column="id" />
+    <result property="writer" column="writer" />
   </resultMap>
 
     <select id="selectAllArticlesList" resultMap="articlesResult" >
         select * from (
                           select /*+ INDEX_DESC(t_board pk_board) */
-                              rownum RNUM,articleNO,parentNO,title,
+                              rownum RNUM,articleNO,title,
                               content,
                               writeDate,
-                              id,
+                            writer,
                               viewCount
-                          from (select * from t_board ORDER BY articleNO DESC)
+                          from (select * from board ORDER BY articleNO DESC)
                           where 1=1
                          <choose>
                              <when test="type !=null and type.equals('title')">
@@ -32,7 +31,7 @@
                                 And content LIKE '%'||#{keyword}||'%'
                             </when>
                              <when test="type !=null and type.equals('id')">
-                                And id LIKE '%'||#{keyword}||'%'
+                                And writer LIKE '%'||#{keyword}||'%'
                             </when>
                          </choose>
                          And rownum  <![CDATA[<=]]>#{endList}
@@ -41,39 +40,39 @@
   </select>
 
     <select id="tableAllCount" resultType="int">
-        select count(*) from t_board
+        select count(*) from board
     </select>
 
 
   <insert id="insertNewArticle"  parameterType="java.util.Map">
 		<![CDATA[
-			INSERT into t_board(articleNO,  title, content, id)
-			VALUES(#{articleNO},#{title},	#{content},	#{id})
+			INSERT into board(articleNO,  title, content, writer)
+			VALUES(#{articleNO},#{title},	#{content},	#{writer})
 		]]>
 	</insert>
 
   <select id="selectNewArticleNO" resultType="int"  >
 		<![CDATA[
-			SELECT  nvl(max(articleNO), 0) + 1 from t_board
+			SELECT  nvl(max(articleNO), 0) + 1 from board
 		]]>
 	</select>
 
   <select id="selectArticle" resultType="ArticleDTO"   parameterType="int">
     <![CDATA[
-      SELECT * from t_board
+      SELECT * from board
       where articleNO = #{articleNO}
     ]]>
   </select>
 
     <update id="addViewCount" parameterType="int">
-        update t_board
+        update board
         set viewCount = viewCount +1
         where articleNO=#{articleNO}
     </update>
 
 
     <update id="updateArticle"  parameterType="java.util.Map">
-			update t_board
+			update board
 			set title=#{title},
 			content=#{content}
 			where articleNO=#{articleNO}
@@ -81,9 +80,9 @@
 
 	<delete id="deleteArticle"  parameterType="int">
     <![CDATA[
-      delete from t_board
+      delete from board
       where articleNO in (
-         SELECT articleNO FROM  t_board
+         SELECT articleNO FROM  board
          START WITH articleNO = #{articleNO}
          CONNECT BY PRIOR  articleNO = parentNO )
     ]]>

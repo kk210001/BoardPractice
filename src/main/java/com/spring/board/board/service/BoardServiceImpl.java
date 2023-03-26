@@ -22,7 +22,6 @@ public class BoardServiceImpl implements BoardService {
 
 
     private final BoardDAO boardDAO;
-    private final PageMaker pageMaker;
 
     @Override
     public List<ArticleDTO> listArticles(Pagination pagination) throws Exception {
@@ -30,15 +29,7 @@ public class BoardServiceImpl implements BoardService {
         return articlesList;
     }
 
-    @Override
-    public Pagination paging(int page, int listSize, String type, String keyword) throws Exception {
 
-        int boardAllCount = boardDAO.getBoardAllCount();
-        Pagination pagination = pageMaker.pageSort(page, listSize, boardAllCount);
-        pagination.setKeyword(keyword);
-        pagination.setType(type);
-        return pagination;
-    }
 
     @Override
     public void addNewArticle(Map articleMap) throws Exception {

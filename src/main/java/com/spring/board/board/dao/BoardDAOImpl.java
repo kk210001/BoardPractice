@@ -23,7 +23,6 @@ public class BoardDAOImpl implements BoardDAO {
 	@Override
 	public List<ArticleDTO> selectAllArticlesList(Pagination pagination) throws DataAccessException {
 		List<ArticleDTO> articlesList = sqlSession.selectList("selectAllArticlesList", pagination);
-		System.out.println("게시글 리스트 호출 완료");
 		return articlesList;
 	}
 
@@ -31,7 +30,6 @@ public class BoardDAOImpl implements BoardDAO {
 	public void insertNewArticle(Map articleMap) throws DataAccessException {
 		log.info("insert article info : {}", articleMap);
 		sqlSession.insert("insertNewArticle",articleMap);
-		System.out.println(" 삽입 완료");
 	}
 
 
@@ -42,27 +40,27 @@ public class BoardDAOImpl implements BoardDAO {
 
     @Override
     public int getBoardAllCount() throws Exception {
-		System.out.printf("게시글 리스트 호출 완료");
+		log.info("게시글 갯수 호출");
         return sqlSession.selectOne("tableAllCount");
     }
 
 
 	@Override
 	public ArticleDTO selectArticle(int articleNO) throws DataAccessException {
-		System.out.println("게시글 호출 완료 " );
+		log.info("게시글 {}번 호출 완료",articleNO);
 		return sqlSession.selectOne("selectArticle", articleNO);
 	}
 
 	@Override
 	public void updateArticle(Map articleMap) throws DataAccessException {
 		sqlSession.update("updateArticle", articleMap);
-		System.out.println(" 수정 완료 " );
+		log.info("게시글 {}번 호출 완료",articleMap.get("articleNO"));
 	}
 
 	@Override
 	public void deleteArticle(int articleNO) throws DataAccessException {
 		sqlSession.delete("deleteArticle", articleNO);
-		System.out.println(" 삭제 완료 " );
+		log.info("게시글 {}번 삭제 완료",articleNO);
 		
 	}
 

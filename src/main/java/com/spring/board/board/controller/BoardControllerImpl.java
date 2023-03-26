@@ -2,6 +2,7 @@ package com.spring.board.board.controller;
 
 import com.spring.board.board.dto.ArticleDTO;
 import com.spring.board.board.service.BoardService;
+import com.spring.board.paging.PageMaker;
 import com.spring.board.paging.Pagination;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,10 +24,12 @@ import java.util.Map;
 public class BoardControllerImpl  implements BoardController{
 
 	private final BoardService boardService;
+	private final PageMaker pageMaker;
 
 	@Autowired
-	public BoardControllerImpl(BoardService boardService) {
+	public BoardControllerImpl(BoardService boardService, PageMaker pageMaker) {
 		this.boardService = boardService;
+		this.pageMaker = pageMaker;
 	}
 
 
@@ -40,7 +43,7 @@ public class BoardControllerImpl  implements BoardController{
 
 		log.info("게시글 출력 페이지 : {}", page);
 
-		Pagination pagination = boardService.paging(page, listSize, type, keyword);
+		Pagination pagination = pageMaker.paging(page, listSize, type, keyword);
 		model.addAttribute("pagination", pagination);
 
 		List<ArticleDTO> articlesList = boardService.listArticles(pagination);
@@ -52,10 +55,11 @@ public class BoardControllerImpl  implements BoardController{
 
 	@Override
 	@PostMapping("/addNewArticle.do")
-	public String addNewArticle(@ModelAttribute("article") ArticleDTO ArticleDTO) throws Exception {
+	public String addNewArticle(@ModelAttribute("article") ArticleDTO articleDTO) throws Exception {
 
-		Map<String, String> articleMap = setArticleMap(ArticleDTO);
+		Map<String, String> articleMap = setArticleMap(articleDTO);
 		boardService.addNewArticle(articleMap);
+		log.info("new article : {}", articleDTO);
 
 		return "redirect:/board/listArticles.do";
 	}
@@ -63,7 +67,7 @@ public class BoardControllerImpl  implements BoardController{
 	//add Article
 	private Map<String, String> setArticleMap(ArticleDTO ArticleDTO) {
 		Map<String, String> articleMap=new HashMap<>();
-		articleMap.put("id", ArticleDTO.getId());
+		articleMap.put("writer", ArticleDTO.getWriter());
 		articleMap.put("title", ArticleDTO.getTitle());
 		articleMap.put("content", ArticleDTO.getContent());
 		return articleMap;

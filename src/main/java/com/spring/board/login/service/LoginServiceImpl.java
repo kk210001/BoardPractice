@@ -21,8 +21,5 @@ public class LoginServiceImpl implements LoginService {
         }else {
             return null;
         }
-//        return Optional.of(memberDAO.selectMember(loginId))
-//                .filter(m -> m.getPassword().equals(password))
-//                .orElse(null);
     }
 }

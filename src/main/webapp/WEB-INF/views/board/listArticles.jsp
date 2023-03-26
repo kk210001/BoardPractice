@@ -36,13 +36,6 @@
             while (page % 10 != 0) {
                 page++;
             }
-            <%--var url = "${pageContext.request.contextPath}/board/listArticles.do";--%>
-            // var url = document.location.href;
-            // var arr = url.split("page")
-            // url = url + "/board/listArticles.do";
-            // url = url + "?page=" + page;
-            // url = arr[0] + "page=" + page;
-            // location.href = url;
             pagination(page);
         }
 
@@ -53,31 +46,10 @@
                 page--;
             }
             pagination(page);
-            <%--var url = "${pageContext.request.contextPath}/board/listArticles.do";--%>
-            <%--url = url + "?page=" + page;--%>
-            // var url = document.location.href;
-            // var arr = url.split("page")
-            // url = arr[0] + "page=" + page;
-            // location.href = url;
         }
 
-        <%--function pagination(page) {--%>
-        <%--    var url = "${contextPath}/board/listArticles.do";--%>
-        <%--    url = url + "?page=" + page;--%>
-        <%--    location.href = url;--%>
-        <%--}--%>
 
         function pagination(page) {
-            // var arr = url.split("page=");
-            // url = url + "/board/listArticles.do";
-            // url = url + "?page=" + page;
-            // if(arr[0].indexOf("type") != -1 && arr[0].charAt(arr[0].length-1) != "&"){
-            //     url = arr[0] + "&page=" + page;
-            // } else if(arr[0].indexOf("type") == -1 && arr[0].charAt(arr[0].length-1) != "&"){
-            //     url = arr[0] + "?page=" + page;
-            // }else {
-            //     url = arr[0] +"page=" + page;
-            // }
             var url = document.location.href;
             if (url.indexOf("?page=") == -1 && url.indexOf("type") == -1) {
                 var arr = url.split("?page=");
@@ -171,7 +143,7 @@
                 <a class="board-title"
                    href="${contextPath}/board/viewArticle.do?articleNO=${article.articleNO}">${article.title}</a>
             </td>
-            <td width="10%">${article.id }</td>
+            <td width="10%">${article.writer }</td>
             <td width="5%">${article.viewCount }</td>
             <td width="10%"><fmt:formatDate
                     value="${article.writeDate}"/></td>
@@ -200,7 +172,7 @@
                         </c:otherwise>
                     </c:choose>
                 </c:forEach>
-                <c:if test="${pagination.page + pagination.rangeSize < pagination.pageCount}">
+                <c:if test="${pagination.endPage - pagination.page >= pagination.endPage % pagination.rangeSize }">
                     <a href="#" onClick="next('${pagination.page}', '${pagination.rangeSize}')">다음</a>
                 </c:if>
             </div>
@@ -211,7 +183,7 @@
             <select name="type">
                 <option selected value="title">제목</option>
                 <option value="content">내용</option>
-                <option value="id">작성자</option>
+                <option value="writer">작성자</option>
             </select>
             <input type="text" name="keyword" value="">
             <input type="button" onclick="getSearchBoard()" class="btn btn-outline-primary mr-2" value="검색">

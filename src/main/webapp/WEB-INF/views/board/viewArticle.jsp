@@ -91,7 +91,7 @@
         <tr>
             <th scope="row">작성자</th>
             <td >
-                <input type=text value="${article.id }" name="writer"  disabled />
+                <input type=text value="${article.writer }" name="writer"  disabled />
             </td>
             <th scope="row">작성일</th>
             <td>

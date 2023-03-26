@@ -10,11 +10,10 @@ import java.sql.Date;
 @Getter@Setter
 public class ArticleDTO {
 	private int articleNO;
-	private int parentNO;
 	private int viewCount;
 	private String title;
 	private String content;
-	private String id;
+	private String writer;
 	private Date  writeDate;
 
 

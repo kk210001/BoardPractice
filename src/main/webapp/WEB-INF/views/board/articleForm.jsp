@@ -21,7 +21,8 @@
 
 
   function addArticle(obj){
-	  document.getElementById("id").disabled=false;
+	  obj.action="${contextPath}/board/addNewArticle.do";
+	  document.getElementById("writer").disabled=false;
 	  obj.submit();
   }
   
@@ -37,7 +38,7 @@
     <table class="board_detail">
       		<tr>
 					<td align="center" width="10%">작성자</td>
-					<td width="30%"><input type="text" size="20" maxlength="20"  id="id" name="id" value=${member.nickname} disabled/> </td>
+					<td width="30%"><input type="text" size="20" maxlength="20" id="writer" name="writer" value=${member.nickname} disabled/> </td>
 				<td></td>
 				<td width="20%" ></td>
 			</tr>
